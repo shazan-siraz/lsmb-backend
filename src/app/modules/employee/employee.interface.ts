@@ -1,0 +1,27 @@
+export type Employee = {
+  name: string;
+  employeeId: string;
+  designation: string;
+  joiningDate: string;
+  employeeType: "FullTime" | "PartTime" | "Sesonal" | "Temporary";
+  phoneNo: number;
+  employeeEmail: string;
+  employeeNid: number;
+  address: string;
+  fatherName: string;
+  motherName: string;
+  bloodGroup: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+  degree: "Five" | "Eight" | "SSC" | "HSC" | "Diploma" | "Bachelors";
+  basicSalary: number;
+  mobileBill: number;
+  conveyanceAllowance: number;
+  medicalAllowance: number;
+  houseRent: number;
+  incentiveBonus: number;
+  others: number;
+  professionalTax: number;
+  incomeTax: number;
+  providentFund: number;
+  totalSalary: number;
+  imageUrl: string;
+};
