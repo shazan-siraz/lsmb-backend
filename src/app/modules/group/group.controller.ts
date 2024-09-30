@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { groupServices } from "./group.service";
 
 const createGroup = async (req: Request, res: Response) => {
+  
   try {
     const result = await groupServices.createGroupIntoDB(req.body);
 
@@ -46,6 +47,7 @@ const updateGroup = async (req: Request, res: Response) => {
 };
 
 const getAllGroup = async (req: Request, res: Response) => {
+
   try {
     const result = await groupServices.getAllGroup();
 

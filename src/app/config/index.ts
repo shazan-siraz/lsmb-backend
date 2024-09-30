@@ -4,6 +4,9 @@ import path from "path";
 dotenv.config({ path: path.join(process.cwd(), ".env") });
 
 export default {
+  NODE_ENV: process.env.NODE_ENV,
+  jwt_access_secret: process.env.JWT_ACCESS_SECRET,
+  bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
   port: process.env.PORT,
   database_url: process.env.DATABASE_URL,
   cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
