@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { EmployeeRoutes } from "./app/modules/employee/employee.route";
 import { groupRoutes } from "./app/modules/group/group.route";
 import { MemberShipRoutes } from "./app/modules/membership/membership.route";
@@ -18,7 +19,8 @@ const app: Application = express();
 
 // parser
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({ origin: ["http://localhost:5173"] }));
 
 // application route
 app.use("/api/v1/employee", EmployeeRoutes);

@@ -43,4 +43,14 @@ UserSchema.statics.isUserExitsByEmail = async function (email: string) {
   return await UserModel.findOne({ email });
 };
 
+UserSchema.statics.isJWTIssuedBeforePasswordChanged = function (
+  passwordChangedTimestamp,
+  jwtIssuedTimestamp
+) {
+  const passwordChangedTime =
+    new Date(passwordChangedTimestamp).getTime() / 1000;
+
+  return passwordChangedTime > jwtIssuedTimestamp;
+};
+
 export const UserModel = model<User, UserInterfaceModel>("User", UserSchema);

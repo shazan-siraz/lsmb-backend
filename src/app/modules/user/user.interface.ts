@@ -15,7 +15,11 @@ export interface UserInterfaceModel extends Model<User> {
   // myStaticMethod(): number;
 
   isUserExitsByEmail(email: string): Promise<User>;
-}
 
+  isJWTIssuedBeforePasswordChanged(
+    passwordChangedTimestamp: Date,
+    jwtIssuedTimestamp: number
+  ): boolean;
+}
 
 export type TUserRole = keyof typeof USER_ROLE;
