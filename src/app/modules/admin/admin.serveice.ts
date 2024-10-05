@@ -1,4 +1,3 @@
-import { Admin } from "./admin.interface";
 import { AdminModel } from "./admin.model";
 
 

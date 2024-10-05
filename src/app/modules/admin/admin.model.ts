@@ -27,7 +27,6 @@ const AdminSchema = new Schema<Admin>(
       unique: true,
       ref: "User",
     },
-    designation: { type: String, required: true },
     name: AdminNameSchema,
     gender: {
       type: String,

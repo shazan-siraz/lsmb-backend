@@ -14,15 +14,19 @@ import { AuthRoutes } from "./app/modules/auth/auth.route";
 import { UserRoutes } from "./app/modules/user/user.route";
 import globalErrorHandler from "./app/middlewares/globalErrorhandler"; // Custom global error handler
 import notFound from "./app/middlewares/notFound"; // 404 error handler
+import { RegisterPackageRoutes } from "./app/modules/registerPackage/registerPackage.route";
+import { BranchRoutes } from "./app/modules/branch/branch.route";
 
 const app: Application = express();
 
 // parser
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: ["http://localhost:5173"] }));
+app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
 
 // application route
+app.use("/api/v1/registerPackage", RegisterPackageRoutes);
+app.use("/api/v1/branch", BranchRoutes);
 app.use("/api/v1/employee", EmployeeRoutes);
 app.use("/api/v1/groups", groupRoutes);
 app.use("/api/v1/membership", MemberShipRoutes);
@@ -47,3 +51,4 @@ app.use(notFound);
 app.use(globalErrorHandler);
 
 export default app;
+

@@ -48,8 +48,6 @@ const updateGroup = async (req: Request, res: Response) => {
 
 const getAllGroup = async (req: Request, res: Response) => {
 
-  console.log(req.cookies);
-
   try {
     const result = await groupServices.getAllGroup();
 

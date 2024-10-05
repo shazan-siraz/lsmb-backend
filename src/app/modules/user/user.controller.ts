@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { UserServices } from "./user.service";
 
 const createAdmin = async (req: Request, res: Response) => {
@@ -21,6 +21,34 @@ const createAdmin = async (req: Request, res: Response) => {
   }
 };
 
+const createBranch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+
+  try {
+    const { password, branch: branchData } = req.body;
+    const result = await UserServices.createBranchIntoDB(password, branchData);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Branch is created successfully",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+      error: err,
+    });
+
+    // next();
+  }
+};
+
 export const UserControllers = {
   createAdmin,
+  createBranch
 };

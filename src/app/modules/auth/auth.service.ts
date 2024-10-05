@@ -119,6 +119,11 @@ const changePasswordFromDB = async (
 };
 
 const refreshTokenFromService = async (token: string) => {
+  // if the token is nothig
+  if (!token) {
+    throw new AppError(httpStatus.NOT_FOUND, "Token not found!");
+  }
+
   // if the token is valid
   const decoded = jwt.verify(
     token,
