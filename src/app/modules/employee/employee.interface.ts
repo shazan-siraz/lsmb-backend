@@ -1,17 +1,20 @@
+import { Types } from "mongoose";
+
 export type Employee = {
-  name: string;
   employeeId: string;
-  designation: string;
-  joiningDate: string;
-  employeeType: "FullTime" | "PartTime" | "Sesonal" | "Temporary";
-  phoneNo: number;
   employeeEmail: string;
-  employeeNid: number;
-  address: string;
+  userId: Types.ObjectId;
+  branchEmail: string;
+  employeeName: string;
+  joiningDate: string;
+  employeeType: string;
+  phoneNo: string;
+  employeeNid: string;
+  presentAddress: string;
   fatherName: string;
   motherName: string;
-  bloodGroup: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
-  degree: "Five" | "Eight" | "SSC" | "HSC" | "Diploma" | "Bachelors";
+  bloodGroup: string;
+  degree: string;
   basicSalary: number;
   mobileBill: number;
   conveyanceAllowance: number;
@@ -23,5 +26,5 @@ export type Employee = {
   incomeTax: number;
   providentFund: number;
   totalSalary: number;
-  imageUrl: string;
+  profileImage: string;
 };

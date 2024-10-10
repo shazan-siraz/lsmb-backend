@@ -1,7 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { EmployeeRoutes } from "./app/modules/employee/employee.route";
 import { groupRoutes } from "./app/modules/group/group.route";
 import { MemberShipRoutes } from "./app/modules/membership/membership.route";
 import { LoanRoutes } from "./app/modules/loan/loan.route";
@@ -16,6 +15,7 @@ import globalErrorHandler from "./app/middlewares/globalErrorhandler"; // Custom
 import notFound from "./app/middlewares/notFound"; // 404 error handler
 import { RegisterPackageRoutes } from "./app/modules/registerPackage/registerPackage.route";
 import { BranchRoutes } from "./app/modules/branch/branch.route";
+import { EmployeeRoutes } from "./app/modules/employee/employee.route";
 
 const app: Application = express();
 
@@ -27,7 +27,6 @@ app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
 // application route
 app.use("/api/v1/registerPackage", RegisterPackageRoutes);
 app.use("/api/v1/branch", BranchRoutes);
-app.use("/api/v1/employee", EmployeeRoutes);
 app.use("/api/v1/groups", groupRoutes);
 app.use("/api/v1/membership", MemberShipRoutes);
 app.use("/api/v1/loan", LoanRoutes);
@@ -38,6 +37,7 @@ app.use("/api/v1/savingWithdraw", SavingWithdrawRoutes);
 app.use("/api/v1/admin", AdminRoutes);
 app.use("/api/v1/user", UserRoutes);
 app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/employee", EmployeeRoutes);
 
 // Check if the server is running
 app.get("/", (req: Request, res: Response) => {
@@ -51,4 +51,3 @@ app.use(notFound);
 app.use(globalErrorHandler);
 
 export default app;
-

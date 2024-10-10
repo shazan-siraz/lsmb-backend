@@ -2,7 +2,7 @@ import { Model } from "mongoose";
 import { USER_ROLE } from "./user.constant";
 
 export interface User {
-  id: string;
+  userId: string;
   email: string;
   password: string;
   role: "superAdmin" | "admin" | "manager" | "fieldOfficer";

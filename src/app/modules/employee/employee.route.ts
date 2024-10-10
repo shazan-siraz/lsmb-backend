@@ -1,10 +1,14 @@
-import express, { NextFunction, Request, Response } from "express";
-import { employeeControllers } from "./employee.controller";
+import express from "express";
+import { EmployeeController } from "./employee.controller";
+import { USER_ROLE } from "../user/user.constant";
+import { auth } from "../../middlewares/auth";
 
 const router = express.Router();
 
-router.post("/create-employee", employeeControllers.createEmployee);
-
-router.get("/", employeeControllers.getAllEmployee);
+router.post(
+  "/create-employee",
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  EmployeeController.createEmployee
+);
 
 export const EmployeeRoutes = router;

@@ -8,11 +8,12 @@ import { AdminModel } from "../admin/admin.model";
 import { Branch } from "../branch/branch.interface";
 import { BranchModel } from "../branch/branch.model";
 
+
 const createAdminIntoDB = async (password: string, payload: Admin) => {
   // create a user object
   const userData: Partial<User> = {};
 
-  userData.id = payload.id;
+  userData.userid = payload.id;
   userData.email = payload.email;
   userData.password = password;
   userData.role = "admin";
@@ -57,7 +58,7 @@ const createBranchIntoDB = async (password: string, payload: Branch) => {
   // create a user object
   const userData: Partial<User> = {};
 
-  userData.id = payload.branchId;
+  userData.userid = payload.branchId;
   userData.email = payload.branchEmail;
   userData.password = password;
   userData.role = "manager";
