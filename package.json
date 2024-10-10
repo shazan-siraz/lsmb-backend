@@ -1,7 +1,7 @@
 {
   "name": "ph-university-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start:prod": "node ./dist/server.js",
     "start:dev": "npx ts-node-dev --respawn --transpile-only src/server.ts",
