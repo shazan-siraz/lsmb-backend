@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { SavingTransactionServices } from "./savingTransaction.service";
+import { JwtPayload } from "jsonwebtoken";
+import { jwtDecode } from "jwt-decode";
 
 const createSavingTransaction = async (req: Request, res: Response) => {
   try {
@@ -23,8 +25,12 @@ const createSavingTransaction = async (req: Request, res: Response) => {
 
 const getAllSavingTransaction = async (req: Request, res: Response) => {
   try {
+
+    const { refreshToken } = req.cookies;
+    const decoded = jwtDecode<JwtPayload>(refreshToken);
+
     const result =
-      await SavingTransactionServices.getAllSavingTransactionFromDB();
+      await SavingTransactionServices.getAllSavingTransactionFromDB(decoded?.email);
 
     // send response
     res.status(200).json({

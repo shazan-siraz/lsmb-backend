@@ -11,6 +11,9 @@ const SavingTransactionSchema = new Schema<SavingTransaction>(
     dateOfCollection: { type: String, required: true },
     savingAmount: { type: Number, required: true },
     savingTransactionInfo: { type: String },
+    branchEmail: { type: String, required: true },
+    transactionId: { type: String, required: true },
+    transactionType: { type: String, required: true },
   },
   { timestamps: true }
 );
@@ -19,3 +22,4 @@ export const SavingTransactionModel = model(
   "SavingTransaction",
   SavingTransactionSchema
 );
+

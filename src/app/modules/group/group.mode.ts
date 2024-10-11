@@ -5,6 +5,7 @@ const groupSchema = new Schema<Group>(
   {
     groupCode: { type: Number, required: true },
     groupTitle: { type: String, required: true },
+    branchEmail: { type: String, required: true },
   },
   { timestamps: true }
 );

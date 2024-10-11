@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 
 export type Loan = {
   memberOfApplying: Types.ObjectId;
+  branchEmail: string;
   startDate: string;
   endDate: string;
   loanNo: string;
@@ -30,8 +31,8 @@ export type Loan = {
     | "Education"
     | "Consumer"
     | "Land";
-  guarantorUser?: string;
-  gurantorMember?: string;
+  guarantorEmployee?: Types.ObjectId;
+  gurantorMember?: Types.ObjectId;
   loanGuarantor: {
     name: string;
     phone: number;

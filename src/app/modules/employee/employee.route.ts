@@ -11,4 +11,10 @@ router.post(
   EmployeeController.createEmployee
 );
 
+router.get(
+  "/",
+  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  EmployeeController.getAllEmployee
+);
+
 export const EmployeeRoutes = router;

@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { groupServices } from "./group.service";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "jsonwebtoken";
 
 const createGroup = async (req: Request, res: Response) => {
   
@@ -49,7 +51,10 @@ const updateGroup = async (req: Request, res: Response) => {
 const getAllGroup = async (req: Request, res: Response) => {
 
   try {
-    const result = await groupServices.getAllGroup();
+    const { refreshToken } = req.cookies;
+    const decoded = jwtDecode<JwtPayload>(refreshToken);
+
+    const result = await groupServices.getAllGroup(decoded?.email);
 
     // send response
     res.status(200).json({

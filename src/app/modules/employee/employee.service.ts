@@ -10,14 +10,15 @@ const createEmployeeIntoDB = async (
   password: string,
   employeeData: Employee
 ) => {
-
-
   const isEmployeeExits = await EmployeeModel.findOne({
     employeeEmail: employeeData.employeeEmail,
   });
 
-  if(isEmployeeExits) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Employee Email is already exits!')
+  if (isEmployeeExits) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Employee Email is already exits!"
+    );
   }
 
   // create a user object
@@ -45,9 +46,6 @@ const createEmployeeIntoDB = async (
     // set userId , _id as userId
     employeeData.userId = newUser[0]._id; //reference _id
 
-
-
-
     // create a Admin (transaction-2)
     const newEmployee = await EmployeeModel.create([employeeData], { session });
 
@@ -66,6 +64,12 @@ const createEmployeeIntoDB = async (
   }
 };
 
+const getAllEmployeeFromDB = async (email: string) => {
+  const result = await EmployeeModel.find({ branchEmail: { $eq: email } }).populate("userId");
+  return result;
+};
+
 export const EmployeeServices = {
   createEmployeeIntoDB,
+  getAllEmployeeFromDB,
 };

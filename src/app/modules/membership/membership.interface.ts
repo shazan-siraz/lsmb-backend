@@ -3,8 +3,9 @@ import { Types } from "mongoose";
 export type Membership = {
   memberName: string;
   memberId: number;
-  groupName: string;
-  assignFieldUser: string;
+  branchEmail: string;
+  group: Types.ObjectId;
+  assignFieldOfficer: Types.ObjectId;
   phoneNo: number;
   email: string;
   memberNid: number;
@@ -33,8 +34,8 @@ export type Membership = {
   signature: string;
   passportOrNid: string;
   chequeBook: string;
-  referenceUser?: string;
-  referenceMember?: string;
+  referenceEmployee?: Types.ObjectId;
+  referenceMember?: Types.ObjectId;
   nominee: {
     nomineeName: string;
     nomineePhone: number;

@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { MembershipServices } from "./membership.service";
+import { JwtPayload } from "jsonwebtoken";
+import { jwtDecode } from "jwt-decode";
 
 const createMembership = async (req: Request, res: Response) => {
   try {
@@ -21,7 +23,10 @@ const createMembership = async (req: Request, res: Response) => {
 };
 
 const getAllMembership = async (req: Request, res: Response) => {
-  const result = await MembershipServices.getAllMembershipFromDB();
+  const { refreshToken } = req.cookies;
+    const decoded = jwtDecode<JwtPayload>(refreshToken);
+
+  const result = await MembershipServices.getAllMembershipFromDB(decoded?.email);
 
   // send response
   res.status(200).json({

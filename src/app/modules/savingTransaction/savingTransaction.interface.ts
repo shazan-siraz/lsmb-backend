@@ -5,4 +5,7 @@ export type SavingTransaction = {
   dateOfCollection: string;
   savingAmount: number;
   savingTransactionInfo?: string;
+  branchEmail: string;
+  transactionId: string;
+  transactionType: string;
 };

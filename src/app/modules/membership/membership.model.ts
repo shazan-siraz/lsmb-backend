@@ -5,8 +5,9 @@ const MembershipSchema = new Schema<Membership>(
   {
     memberName: { type: String, required: true },
     memberId: { type: Number, required: true },
-    groupName: { type: String, required: true },
-    assignFieldUser: { type: String, required: true },
+    branchEmail: { type: String, required: true },
+    group: { type: Schema.Types.ObjectId, required: true, ref: "Group" },
+    assignFieldOfficer: { type: Schema.Types.ObjectId, required: true, ref: "Employee" },
     phoneNo: { type: Number, required: true },
     email: { type: String, required: true },
     memberNid: { type: Number, required: true },
@@ -40,8 +41,8 @@ const MembershipSchema = new Schema<Membership>(
     signature: { type: String, required: true },
     passportOrNid: { type: String, required: true },
     chequeBook: { type: String, required: true },
-    referenceUser: { type: String },
-    referenceMember: { type: String },
+    referenceEmployee: { type: Schema.Types.ObjectId, ref: "Employee" },
+    referenceMember: { type: Schema.Types.ObjectId, ref: "Membership" },
     nominee: {
       nomineeName: { type: String, required: true },
       nomineePhone: { type: Number, required: true },

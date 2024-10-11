@@ -6,8 +6,12 @@ const createMembershipIntoDB = async (memberData: Membership) => {
   return result;
 };
 
-const getAllMembershipFromDB = async () => {
-  const result = await MembershipModel.find();
+const getAllMembershipFromDB = async (email: string) => {
+  const result = await MembershipModel.find({ branchEmail: { $eq: email } })
+    .populate("group")
+    .populate("assignFieldOfficer")
+    .populate("referenceEmployee")
+    .populate("referenceMember");
   return result;
 };
 

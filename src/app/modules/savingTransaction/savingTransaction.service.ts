@@ -47,8 +47,8 @@ const createSavingTransactionIntoDB = async (payload: SavingTransaction) => {
   }
 };
 
-const getAllSavingTransactionFromDB = async () => {
-  const result = await SavingTransactionModel.find();
+const getAllSavingTransactionFromDB = async (email: string) => {
+  const result = await SavingTransactionModel.find({ branchEmail: { $eq: email } }).populate('memberId');
   return result;
 };
 

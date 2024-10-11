@@ -8,6 +8,7 @@ const LoanSchema = new Schema<Loan>(
       ref: "Membership",
       required: true,
     },
+    branchEmail: { type: String, required: true },
     startDate: { type: String, required: true },
     endDate: { type: String, required: true },
     loanNo: { type: String, required: true, unique: true },
@@ -45,8 +46,14 @@ const LoanSchema = new Schema<Loan>(
       ],
       required: true,
     },
-    guarantorUser: { type: String },
-    gurantorMember: { type: String },
+    guarantorEmployee: {
+      type: Schema.Types.ObjectId,
+      ref: "Employee",
+    },
+    gurantorMember: {
+      type: Schema.Types.ObjectId,
+      ref: "Membership",
+    },
     loanGuarantor: {
       name: { type: String, required: true },
       phone: { type: Number, required: true },
