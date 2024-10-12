@@ -7,6 +7,7 @@ const DpsSchema = new Schema<Dps>({
     ref: "Membership",
     required: true,
   },
+  branchEmail: { type: String, required: true },
   dpsStart: { type: String, required: true },
   dpsAcNo: { type: String, required: true },
   startingBalance: { type: Number, required: true },

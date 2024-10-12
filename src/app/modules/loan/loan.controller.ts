@@ -1,5 +1,7 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { LoanServices } from "./loan.service";
+import { JwtPayload } from "jsonwebtoken";
+import { jwtDecode } from "jwt-decode";
 
 const createLoan = async (req: Request, res: Response) => {
   try {
@@ -22,7 +24,10 @@ const createLoan = async (req: Request, res: Response) => {
 
 const getAllLoan = async (req: Request, res: Response) => {
   try {
-    const result = await LoanServices.getAllLoanFromDB();
+    const { refreshToken } = req.cookies;
+    const { email } = jwtDecode<JwtPayload>(refreshToken);
+
+    const result = await LoanServices.getAllLoanFromDB(email);
 
     // send response
     res.status(200).json({
@@ -41,7 +46,10 @@ const getAllLoan = async (req: Request, res: Response) => {
 
 const getPendingLoan = async (req: Request, res: Response) => {
   try {
-    const result = await LoanServices.getPendingLoanFromDB();
+    const { refreshToken } = req.cookies;
+    const { email } = jwtDecode<JwtPayload>(refreshToken);
+
+    const result = await LoanServices.getPendingLoanFromDB(email);
 
     // send response
     res.status(200).json({
@@ -60,7 +68,10 @@ const getPendingLoan = async (req: Request, res: Response) => {
 
 const getActiveLoan = async (req: Request, res: Response) => {
   try {
-    const result = await LoanServices.getActiveLoanFromDB();
+    const { refreshToken } = req.cookies;
+    const { email } = jwtDecode<JwtPayload>(refreshToken);
+
+    const result = await LoanServices.getActiveLoanFromDB(email);
 
     // send response
     res.status(200).json({
@@ -99,10 +110,33 @@ const updateLoan = async (req: Request, res: Response) => {
   }
 };
 
+const getOverdueLoan = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { refreshToken } = req.cookies;
+    const { email } = jwtDecode<JwtPayload>(refreshToken);
+
+    const result = await LoanServices.getOverdueLoanFromDB(email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Overdue Loan is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const LoanControllers = {
   createLoan,
   getAllLoan,
   getPendingLoan,
   getActiveLoan,
   updateLoan,
+  getOverdueLoan
 };

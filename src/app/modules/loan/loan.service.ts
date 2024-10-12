@@ -6,18 +6,26 @@ const createLoanIntoDB = async (loanData: Loan) => {
   return result;
 };
 
-const getAllLoanFromDB = async () => {
-  const result = await LoanModel.find().populate("memberOfApplying");
+const getAllLoanFromDB = async (email: string) => {
+  const result = await LoanModel.find({
+    branchEmail: email,
+  }).populate("memberOfApplying");
   return result;
 };
 
-const getPendingLoanFromDB = async () => {
-  const result = await LoanModel.find({status: {$ne: "Active"}}).populate("memberOfApplying");
+const getPendingLoanFromDB = async (email: string) => {
+  const result = await LoanModel.find({
+    branchEmail: email,
+    status: { $eq: "Pending" },
+  }).populate("memberOfApplying");
   return result;
 };
 
-const getActiveLoanFromDB = async () => {
-  const result = await LoanModel.find({status: {$eq: "Active"}}).populate("memberOfApplying");
+const getActiveLoanFromDB = async (email: string) => {
+  const result = await LoanModel.find({
+    branchEmail: email,
+    status: { $eq: "Active" },
+  }).populate("memberOfApplying");
   return result;
 };
 
@@ -30,10 +38,29 @@ const updateLoanFromDB = async (id: string, payload: string) => {
   return result;
 };
 
+const getOverdueLoanFromDB = async (email: string) => {
+  const loanData = await LoanModel.find({
+    branchEmail: email,
+    status: { $eq: "Active" },
+  }).populate("memberOfApplying");
+
+  // Get today's date
+  const today = new Date();
+
+  // Filter for loans where endDate is not over
+  const activeLoans = loanData.filter(item => {
+    const endDate = new Date(item.endDate); // Correctly parse "YYYY-MM-DD"
+    return endDate <= today; // Check if endDate is today or in the future
+  });
+
+  return activeLoans;
+};
+
 export const LoanServices = {
   createLoanIntoDB,
   getAllLoanFromDB,
   getPendingLoanFromDB,
   getActiveLoanFromDB,
-  updateLoanFromDB
+  updateLoanFromDB,
+  getOverdueLoanFromDB
 };
