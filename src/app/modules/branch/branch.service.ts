@@ -8,9 +8,9 @@ const getAllBranchFromDB = async () => {
 };
 
 const getSingleBranchFromDB = async (email: string) => {
-  const branchUser = await BranchModel.findOne({ branchEmail: email }).populate(
-    "registeredPackage"
-  );
+  const branchUser = await BranchModel.findOne({ branchEmail: email })
+    .populate("registeredPackage")
+    .populate("user");
 
   if (!branchUser) {
     throw new AppError(httpStatus.NOT_FOUND, "Email do not match!");

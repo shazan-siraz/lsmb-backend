@@ -12,6 +12,18 @@ const getAllAdmin = async (req: Request, res: Response) => {
   });
 };
 
+const getSingleAdmin = async (req: Request, res: Response) => {
+  const result = await AdminServices.getSingleAdminFromDB(req.params.email);
+
+  // send response
+  res.status(200).json({
+    success: true,
+    message: "Admin is retrieve successfully",
+    data: result,
+  });
+};
+
 export const AdminControllers = {
   getAllAdmin,
+  getSingleAdmin,
 };

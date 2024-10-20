@@ -6,10 +6,10 @@ export type Dps = {
   dpsStart: string;
   dpsAcNo: string;
   startingBalance: number;
-  durationOfYear: string;
+  durationOfYear: number;
   installmentType: string;
-  returnInterest: string;
-  returnAmount?: number;
-  referenceUser?: Types.ObjectId;
+  returnInterest: number;
+  returnAmount: number;
+  referenceEmployee?: Types.ObjectId;
   referenceMember?: Types.ObjectId;
 };

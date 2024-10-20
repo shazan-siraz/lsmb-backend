@@ -16,6 +16,7 @@ import notFound from "./app/middlewares/notFound"; // 404 error handler
 import { RegisterPackageRoutes } from "./app/modules/registerPackage/registerPackage.route";
 import { BranchRoutes } from "./app/modules/branch/branch.route";
 import { EmployeeRoutes } from "./app/modules/employee/employee.route";
+import { SuperAdminRoutes } from "./app/modules/superAdmin/superAdmin.route";
 
 const app: Application = express();
 
@@ -35,6 +36,7 @@ app.use("/api/v1/fdr", FdrRoutes);
 app.use("/api/v1/savingTransaction", SavingTransactionRoutes);
 app.use("/api/v1/savingWithdraw", SavingWithdrawRoutes);
 app.use("/api/v1/admin", AdminRoutes);
+app.use("/api/v1/superAdmin", SuperAdminRoutes);
 app.use("/api/v1/user", UserRoutes);
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/employee", EmployeeRoutes);

@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { FdrServices } from "./fdr.service";
+import { JwtPayload } from "jsonwebtoken";
+import { jwtDecode } from "jwt-decode";
 
 const createFdr = async (req: Request, res: Response) => {
   try {
@@ -21,7 +23,11 @@ const createFdr = async (req: Request, res: Response) => {
 };
 
 const getAllFdr = async (req: Request, res: Response) => {
-  const result = await FdrServices.getAllFdrFromDB();
+
+  const { refreshToken } = req.cookies;
+    const {email} = jwtDecode<JwtPayload>(refreshToken);
+
+  const result = await FdrServices.getAllFdrFromDB(email);
 
   // send response
   res.status(200).json({

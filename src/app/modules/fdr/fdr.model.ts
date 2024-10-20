@@ -4,10 +4,11 @@ import { Fdr } from "./fdr.interface";
 const FdrSchema = new Schema<Fdr>(
   {
     memberOfFdrApplying: {
-        type: Schema.Types.ObjectId,
-        ref: "Membership",
-        required: true,
-      },
+      type: Schema.Types.ObjectId,
+      ref: "Membership",
+      required: true,
+    },
+    branchEmail: { type: String, required: true },
     FdrStart: { type: String, required: true },
     FdrAcNo: { type: String, required: true },
     FixedDepositAmount: { type: Number, required: true },

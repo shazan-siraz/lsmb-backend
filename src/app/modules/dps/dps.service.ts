@@ -6,8 +6,10 @@ const createDpsIntoDB = async (dpsData: Dps) => {
   return result;
 };
 
-const getAllDpsFromDB = async () => {
-  const result = await DpsModel.find().populate('memberOfApplying');
+const getAllDpsFromDB = async (email: string) => {
+  const result = await DpsModel.find({ branchEmail: { $eq: email } }).populate(
+    "memberOfApplying"
+  );
   return result;
 };
 
