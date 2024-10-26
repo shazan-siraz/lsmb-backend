@@ -9,11 +9,20 @@ const createRegisterPackageIntoDB = async (
 };
 
 const getAllRegisterPackageFromDB = async () => {
-  const result = await RegisterPackageModel.find();
+  const result = await RegisterPackageModel.find({ isDeleted: { $ne: true } });
+  return result;
+};
+
+const getDeleteRegisterPackageFromDB = async (id: string) => {
+  const result = await RegisterPackageModel.findByIdAndUpdate(
+    { _id: id },
+    { isDeleted: true }
+  );
   return result;
 };
 
 export const RegisterPackageServices = {
   createRegisterPackageIntoDB,
   getAllRegisterPackageFromDB,
+  getDeleteRegisterPackageFromDB,
 };

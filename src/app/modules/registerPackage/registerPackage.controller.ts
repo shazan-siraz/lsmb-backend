@@ -18,12 +18,6 @@ const createRegisterPackage = async (
       data: result,
     });
   } catch (err) {
-    // res.status(500).json({
-    //   success: false,
-    //   message: "Something went wrong",
-    //   error: err,
-    // });
-
     next();
   }
 };
@@ -39,7 +33,19 @@ const getAllRegisterPackage = async (req: Request, res: Response) => {
   });
 };
 
+const deleteRegisterPackage = async (req: Request, res: Response) => {
+  const result = await RegisterPackageServices.getDeleteRegisterPackageFromDB(req.params.id);
+
+  // send response
+  res.status(200).json({
+    success: true,
+    message: "Register Package is deleted successfully",
+    data: result,
+  });
+};
+
 export const RegisterPackageControllers = {
   createRegisterPackage,
   getAllRegisterPackage,
+  deleteRegisterPackage
 };

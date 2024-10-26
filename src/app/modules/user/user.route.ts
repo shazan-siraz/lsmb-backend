@@ -15,10 +15,6 @@ router.post(
   auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   UserControllers.createBranch
 );
-router.post(
-  "/create-superAdmin",
-  auth(USER_ROLE.superAdmin),
-  UserControllers.createSuperAdmin
-);
+router.post("/create-superAdmin", UserControllers.createSuperAdmin);
 
 export const UserRoutes = router;

@@ -5,7 +5,7 @@ import { groupRoutes } from "./app/modules/group/group.route";
 import { MemberShipRoutes } from "./app/modules/membership/membership.route";
 import { LoanRoutes } from "./app/modules/loan/loan.route";
 import { DpsRoutes } from "./app/modules/dps/dps.route";
-import { FdrRoutes } from "./app/modules/fdr/employee.route";
+import { FdrRoutes } from "./app/modules/fdr/fdr.route";
 import { SavingTransactionRoutes } from "./app/modules/savingTransaction/savingTransaction.route";
 import { SavingWithdrawRoutes } from "./app/modules/savingWithdraw/savingWithdraw.route";
 import { AdminRoutes } from "./app/modules/admin/admin.route";
@@ -17,13 +17,16 @@ import { RegisterPackageRoutes } from "./app/modules/registerPackage/registerPac
 import { BranchRoutes } from "./app/modules/branch/branch.route";
 import { EmployeeRoutes } from "./app/modules/employee/employee.route";
 import { SuperAdminRoutes } from "./app/modules/superAdmin/superAdmin.route";
+import { VideoTutorialRoutes } from "./app/modules/videoTutorial/videoTutorial.route";
+import { SoftwareUsersRoutes } from "./app/modules/softwareUsers/softwareUsers.route";
+import { ArticleRoutes } from "./app/modules/article/article.route";
 
 const app: Application = express();
 
 // parser
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
+app.use(cors({ origin: true, credentials: true }));
 
 // application route
 app.use("/api/v1/registerPackage", RegisterPackageRoutes);
@@ -40,10 +43,13 @@ app.use("/api/v1/superAdmin", SuperAdminRoutes);
 app.use("/api/v1/user", UserRoutes);
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/employee", EmployeeRoutes);
+app.use("/api/v1/videoTutorial", VideoTutorialRoutes);
+app.use("/api/v1/softwareUsers", SoftwareUsersRoutes);
+app.use("/api/v1/article", ArticleRoutes);
 
 // Check if the server is running
 app.get("/", (req: Request, res: Response) => {
-  res.send("LSMB Server is running");
+  res.send("SoftbankBD Server is running");
 });
 
 // Not Found middleware (optional but helpful for unhandled routes)
@@ -53,5 +59,3 @@ app.use(notFound);
 app.use(globalErrorHandler);
 
 export default app;
-
-
