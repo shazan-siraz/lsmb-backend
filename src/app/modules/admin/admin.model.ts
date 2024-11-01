@@ -20,7 +20,6 @@ export const GenderSchema = ["male", "female", "other"];
 
 const AdminSchema = new Schema<Admin>(
   {
-    id: { type: String, required: true, unique: true },
     user: {
       type: Schema.Types.ObjectId,
       required: [true, "User id is required"],

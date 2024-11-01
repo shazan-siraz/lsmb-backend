@@ -10,11 +10,19 @@ router.post(
   auth(USER_ROLE.superAdmin),
   UserControllers.createAdmin
 );
-router.post(
-  "/create-branch",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
-  UserControllers.createBranch
-);
+
 router.post("/create-superAdmin", UserControllers.createSuperAdmin);
+
+router.post("/create-company", UserControllers.createCompany);
+
+router.post("/create-branch", UserControllers.createBranch);
+
+router.get("/:email", UserControllers.getSingleUser);
+
+router.patch(
+  "/updateUserStatus",
+  // auth(USER_ROLE.superAdmin),
+  UserControllers.updateUserStatus
+);
 
 export const UserRoutes = router;

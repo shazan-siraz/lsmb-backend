@@ -20,6 +20,7 @@ import { SuperAdminRoutes } from "./app/modules/superAdmin/superAdmin.route";
 import { VideoTutorialRoutes } from "./app/modules/videoTutorial/videoTutorial.route";
 import { SoftwareUsersRoutes } from "./app/modules/softwareUsers/softwareUsers.route";
 import { ArticleRoutes } from "./app/modules/article/article.route";
+import { CompanyRoutes } from "./app/modules/company/company.route";
 
 const app: Application = express();
 
@@ -46,6 +47,7 @@ app.use("/api/v1/employee", EmployeeRoutes);
 app.use("/api/v1/videoTutorial", VideoTutorialRoutes);
 app.use("/api/v1/softwareUsers", SoftwareUsersRoutes);
 app.use("/api/v1/article", ArticleRoutes);
+app.use("/api/v1/company", CompanyRoutes);
 
 // Check if the server is running
 app.get("/", (req: Request, res: Response) => {
@@ -59,3 +61,4 @@ app.use(notFound);
 app.use(globalErrorHandler);
 
 export default app;
+

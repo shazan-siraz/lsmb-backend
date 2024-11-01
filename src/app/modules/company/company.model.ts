@@ -4,7 +4,7 @@ import { Company } from "./company.interface";
 const CompanySchema = new Schema<Company>(
   {
     companyName: { type: String, required: true },
-    companyEmail: { type: String, required: true },
+    companyEmail: { type: String, required: true, unique: true },
     user: {
       type: Schema.Types.ObjectId,
       required: [true, "User id is required"],
@@ -18,6 +18,7 @@ const CompanySchema = new Schema<Company>(
       ref: "RegisterPackage",
       required: true,
     },
+    profileImage: { type: String },
     status: { type: String, required: true, enum: ["Enable", "Disable"] },
     isDeleted: { type: Boolean, required: true, default: false },
   },

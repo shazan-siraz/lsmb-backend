@@ -9,13 +9,16 @@ import { Branch } from "../branch/branch.interface";
 import { BranchModel } from "../branch/branch.model";
 import { SuperAdminModel } from "../superAdmin/superAdmin.model";
 import { Company } from "../company/company.interface";
+import { CompanyModel } from "../company/company.model";
+import { SuperAdmin } from "../superAdmin/superAdmin.interface";
 
-
-const createSuperAdminIntoDB = async (password: string, payload: Admin) => {
+const createSuperAdminIntoDB = async (
+  password: string,
+  payload: SuperAdmin
+) => {
   // create a user object
   const userData: Partial<User> = {};
 
-  userData.userId = payload.id;
   userData.email = payload.email;
   userData.password = password;
   userData.role = "superAdmin";
@@ -42,7 +45,10 @@ const createSuperAdminIntoDB = async (password: string, payload: Admin) => {
     const newSuperAdmin = await SuperAdminModel.create([payload], { session });
 
     if (!newSuperAdmin.length) {
-      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create Super Admin");
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Failed to create Super Admin"
+      );
     }
 
     await session.commitTransaction();
@@ -60,7 +66,6 @@ const createAdminIntoDB = async (password: string, payload: Admin) => {
   // create a user object
   const userData: Partial<User> = {};
 
-  userData.userId = payload.id;
   userData.email = payload.email;
   userData.password = password;
   userData.role = "admin";
@@ -105,10 +110,9 @@ const createBranchIntoDB = async (password: string, payload: Branch) => {
   // create a user object
   const userData: Partial<User> = {};
 
-  userData.userId = payload.branchId;
   userData.email = payload.branchEmail;
   userData.password = password;
-  userData.role = "manager";
+  userData.role = "branch";
   userData.status = "in-progress";
   userData.isDeleted = false;
 
@@ -150,14 +154,24 @@ const createCompanyIntoDB = async (password: string, payload: Company) => {
   // create a user object
   const userData: Partial<User> = {};
 
-  userData.userId = payload.branchId;
-  userData.email = payload.branchEmail;
+  userData.email = payload.companyEmail;
   userData.password = password;
-  userData.role = "manager";
-  userData.status = "in-progress";
+  userData.role = "company";
+  userData.status = "pending";
   userData.isDeleted = false;
 
   const session = await mongoose.startSession();
+
+  const isUserAlreadyExits = await UserModel.findOne({
+    email: payload.companyEmail,
+  });
+
+  if (isUserAlreadyExits) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "This is Email is already exits!"
+    );
+  }
 
   try {
     session.startTransaction();
@@ -173,17 +187,17 @@ const createCompanyIntoDB = async (password: string, payload: Company) => {
     // payload.id = newUser[0].id;
     payload.user = newUser[0]._id; //reference _id
 
-    // create a Admin (transaction-2)
-    const newBranch = await BranchModel.create([payload], { session });
+    // create a Compangy (transaction-2)
+    const newCompany = await CompanyModel.create([payload], { session });
 
-    if (!newBranch.length) {
-      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create Branch");
+    if (!newCompany.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create Company");
     }
 
     await session.commitTransaction();
     await session.endSession();
 
-    return newBranch;
+    return newCompany;
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
@@ -191,8 +205,40 @@ const createCompanyIntoDB = async (password: string, payload: Company) => {
   }
 };
 
+const getSingleUserFromDB = async (email: string) => {
+  const result = UserModel.findOne({ email: email });
+
+  return result;
+};
+
+const updateUserStatusFromDB = async (payload: any) => {
+  const user = await UserModel.findOne({ email: payload.email });
+  const userStatus = user?.status;
+
+  if (userStatus === "pending") {
+    const result = await UserModel.findOneAndUpdate(
+      { email: payload.email },
+      { status: "in-progress" }
+    );
+
+    return result;
+  }
+
+  if (userStatus === "in-progress") {
+    const result = await UserModel.findOneAndUpdate(
+      { email: payload.email },
+      { status: "pending" }
+    );
+
+    return result;
+  }
+};
+
 export const UserServices = {
   createAdminIntoDB,
   createBranchIntoDB,
-  createSuperAdminIntoDB
+  createSuperAdminIntoDB,
+  createCompanyIntoDB,
+  getSingleUserFromDB,
+  updateUserStatusFromDB,
 };

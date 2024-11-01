@@ -2,11 +2,10 @@ import { Model } from "mongoose";
 import { USER_ROLE } from "./user.constant";
 
 export interface User {
-  userId: string;
   email: string;
   password: string;
-  role: "superAdmin" | "admin" | "manager" | "fieldOfficer";
-  status: "in-progress" | "blocked";
+  role: "superAdmin" | "admin" | "company" | "branch" | "manager" | "fieldOfficer";
+  status: "in-progress" | "pending" | "blocked";
   isDeleted: boolean;
   passwordChangeAt?: Date;
 }

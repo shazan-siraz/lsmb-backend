@@ -7,13 +7,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 
 const loginUserfromDB = async (logindata: User) => {
-  // checking if the user is exits
-  // const isUserExits = await UserModel.findOne({ email: logindata?.email });
-
-  // if (!isUserExits) {
-  //   throw new AppError(httpStatus.NOT_FOUND, "This user is not found!");
-  // }
-
+  
   // checking if the user is exits
   const userData = await UserModel.isUserExitsByEmail(logindata?.email);
 

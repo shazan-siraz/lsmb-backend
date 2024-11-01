@@ -20,7 +20,6 @@ export const GenderSchema = ["male", "female", "other"];
 
 const SuperAdminSchema = new Schema<SuperAdmin>(
   {
-    id: { type: String, required: true, unique: true },
     user: {
       type: Schema.Types.ObjectId,
       required: [true, "User id is required"],

@@ -12,7 +12,6 @@ router.post(
 );
 router.get(
   "/",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
   SoftwareUsersControllers.getAllSoftwareUsers
 );
 

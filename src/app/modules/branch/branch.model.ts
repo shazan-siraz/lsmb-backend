@@ -3,7 +3,6 @@ import { Branch } from "./branch.interface";
 
 const BranchSchema = new Schema<Branch>(
   {
-    branchId: { type: String, required: true },
     user: {
       type: Schema.Types.ObjectId,
       required: [true, "User id is required"],
@@ -14,10 +13,16 @@ const BranchSchema = new Schema<Branch>(
     branchEmail: { type: String, required: true },
     branchMobile: { type: String, required: true },
     branchAddress: { type: String, required: true },
-    registeredPackage: {
+    company: {
       type: Schema.Types.ObjectId,
-      ref: "RegisterPackage",
+      ref: "Company",
       required: true,
+    },
+    status: {
+      type: String,
+      enum: ["Enable", "Disable"],
+      required: true,
+      default: "Enable",
     },
     isDeleted: { type: Boolean, required: true, default: false },
   },

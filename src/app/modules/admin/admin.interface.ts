@@ -18,7 +18,6 @@ export type BloodGroup =
   | "O-";
 
 export type Admin = {
-  id: string;
   user: Types.ObjectId;
   name: AdminName;
   gender: Gender;

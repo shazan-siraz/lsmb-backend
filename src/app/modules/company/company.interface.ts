@@ -7,7 +7,7 @@ export type Company = {
   companyMobile: string;
   companyAddress: string;
   registeredPackage: Types.ObjectId;
+  profileImage: string;
   status: "Enable" | "Disable";
   isDeleted: boolean;
 };
-

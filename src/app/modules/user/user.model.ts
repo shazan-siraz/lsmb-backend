@@ -5,16 +5,15 @@ import config from "../../config";
 
 const UserSchema = new Schema<User, UserInterfaceModel>(
   {
-    userId: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: {
       type: String,
-      enum: ["superAdmin", "admin", "manager", "fieldOfficer"],
+      enum: ["superAdmin", "admin", "company", "branch" , "manager", "fieldOfficer"],
     },
     status: {
       type: String,
-      enum: ["in-progress", "blocked"],
+      enum: ["in-progress", "pending", "blocked"],
     },
     isDeleted: { type: Boolean, default: false },
     passwordChangeAt: Date,
