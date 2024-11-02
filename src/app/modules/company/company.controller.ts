@@ -12,6 +12,7 @@ const getAllCompany = async (req: Request, res: Response) => {
   });
 };
 
+
 const getSingleCompany = async (req: Request, res: Response) => {
   const result = await CompanyServices.getSingleCompanyFromDB(req.params.email);
 

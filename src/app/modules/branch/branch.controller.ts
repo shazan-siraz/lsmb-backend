@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { BranchServices } from "./branch.service";
 
 const getAllBranch = async (req: Request, res: Response) => {
-  const result = await BranchServices.getAllBranchFromDB();
+  const email = req.params.email;
+  const result = await BranchServices.getAllBranchFromDB(email);
 
   // send response
   res.status(200).json({

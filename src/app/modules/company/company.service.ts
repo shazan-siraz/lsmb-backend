@@ -7,8 +7,11 @@ const getAllCompanyFromDB = async () => {
   return result;
 };
 
+
 const getSingleCompanyFromDB = async (email: any) => {
-  const result = await CompanyModel.findOne({ companyEmail: email }).populate("user").populate("registeredPackage");
+  const result = await CompanyModel.findOne({ companyEmail: email })
+    .populate("user")
+    .populate("registeredPackage");
   return result;
 };
 

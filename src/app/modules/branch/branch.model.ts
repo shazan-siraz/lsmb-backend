@@ -13,6 +13,7 @@ const BranchSchema = new Schema<Branch>(
     branchEmail: { type: String, required: true },
     branchMobile: { type: String, required: true },
     branchAddress: { type: String, required: true },
+    companyEmail: { type: String, required: true },
     company: {
       type: Schema.Types.ObjectId,
       ref: "Company",
