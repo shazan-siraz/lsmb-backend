@@ -4,7 +4,7 @@ import { USER_ROLE } from "./user.constant";
 export interface User {
   email: string;
   password: string;
-  role: "superAdmin" | "admin" | "company" | "branch" | "manager" | "fieldOfficer";
+  role: "superAdmin" | "admin" | "company" | "branch" | "manager" | "accountant" | "fieldOfficer";
   status: "in-progress" | "pending" | "blocked";
   isDeleted: boolean;
   passwordChangeAt?: Date;

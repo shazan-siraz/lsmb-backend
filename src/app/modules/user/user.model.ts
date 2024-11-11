@@ -9,7 +9,7 @@ const UserSchema = new Schema<User, UserInterfaceModel>(
     password: { type: String, required: true },
     role: {
       type: String,
-      enum: ["superAdmin", "admin", "company", "branch" , "manager", "fieldOfficer"],
+      enum: ["superAdmin", "admin", "company", "branch" , "manager", "accountant", "fieldOfficer"],
     },
     status: {
       type: String,

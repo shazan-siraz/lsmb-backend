@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { RegisteredPackage } from "../registerPackage/registerPackage.interface";
 
 export type Company = {
   companyName: string;
@@ -6,8 +7,9 @@ export type Company = {
   user: Types.ObjectId;
   companyMobile: string;
   companyAddress: string;
-  registeredPackage: Types.ObjectId;
+  registeredPackage: RegisteredPackage | Types.ObjectId;
   profileImage: string;
   status: "Enable" | "Disable";
   isDeleted: boolean;
 };
+

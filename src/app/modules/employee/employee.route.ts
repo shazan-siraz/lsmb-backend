@@ -7,13 +7,13 @@ const router = express.Router();
 
 router.post(
   "/create-employee",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.branch, USER_ROLE.manager),
   EmployeeController.createEmployee
 );
 
 router.get(
   "/",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.branch, USER_ROLE.manager),
   EmployeeController.getAllEmployee
 );
 

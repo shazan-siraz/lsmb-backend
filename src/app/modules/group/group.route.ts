@@ -7,17 +7,17 @@ const router = express.Router();
 
 router.post(
   "/create-group",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.manager, USER_ROLE.branch),
   groupController.createGroup
 );
 router.get(
   "/",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.branch, USER_ROLE.manager),
   groupController.getAllGroup
 );
 router.patch(
   "/update-group",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.branch, USER_ROLE.manager),
   groupController.updateGroup
 );
 

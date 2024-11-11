@@ -121,11 +121,33 @@ const updateUserStatus = async (
   }
 };
 
+const blockedUserStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await UserServices.blockedUserStatusFromDB(req.body);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "User status updated successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+
 export const UserControllers = {
   createAdmin,
   createBranch,
   createSuperAdmin,
   createCompany,
   getSingleUser,
-  updateUserStatus
+  updateUserStatus,
+  blockedUserStatus
 };

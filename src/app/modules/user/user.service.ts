@@ -205,6 +205,61 @@ const createCompanyIntoDB = async (password: string, payload: Company) => {
   }
 };
 
+const createEmployeeIntoDB = async (password: string, payload: Company) => {
+  // create a user object
+  const userData: Partial<User> = {};
+
+  userData.email = payload.companyEmail;
+  userData.password = password;
+  userData.role = "company";
+  userData.status = "pending";
+  userData.isDeleted = false;
+
+  const session = await mongoose.startSession();
+
+  const isUserAlreadyExits = await UserModel.findOne({
+    email: payload.companyEmail,
+  });
+
+  if (isUserAlreadyExits) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "This is Email is already exits!"
+    );
+  }
+
+  try {
+    session.startTransaction();
+
+    // create a user (transaction-1)
+    const newUser = await UserModel.create([userData], { session }); // array
+
+    if (!newUser.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create user");
+    }
+
+    // set id , _id as user
+    // payload.id = newUser[0].id;
+    payload.user = newUser[0]._id; //reference _id
+
+    // create a Compangy (transaction-2)
+    const newCompany = await CompanyModel.create([payload], { session });
+
+    if (!newCompany.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create Company");
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    return newCompany;
+  } catch (err: any) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new Error(err);
+  }
+};
+
 const getSingleUserFromDB = async (email: string) => {
   const result = UserModel.findOne({ email: email });
 
@@ -234,6 +289,29 @@ const updateUserStatusFromDB = async (payload: any) => {
   }
 };
 
+const blockedUserStatusFromDB = async (payload: any) => {
+  const user = await UserModel.findOne({ email: payload.email });
+  const userStatus = user?.status;
+
+  if (userStatus === "in-progress") {
+    const result = await UserModel.findOneAndUpdate(
+      { email: payload.email },
+      { status: "blocked" }
+    );
+
+    return result;
+  }
+
+  if (userStatus === "blocked") {
+    const result = await UserModel.findOneAndUpdate(
+      { email: payload.email },
+      { status: "in-progress" }
+    );
+
+    return result;
+  }
+};
+
 export const UserServices = {
   createAdminIntoDB,
   createBranchIntoDB,
@@ -241,4 +319,5 @@ export const UserServices = {
   createCompanyIntoDB,
   getSingleUserFromDB,
   updateUserStatusFromDB,
+  blockedUserStatusFromDB
 };

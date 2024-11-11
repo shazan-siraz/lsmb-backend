@@ -5,11 +5,41 @@ import { EmployeeModel } from "./employee.model";
 import { UserModel } from "../user/user.model";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
+import { generateEmployeeId } from "../../utils/generateId";
+import { CompanyModel } from "../company/company.model";
+import { RegisteredPackage } from "../registerPackage/registerPackage.interface";
+import { BranchModel } from "../branch/branch.model";
 
 const createEmployeeIntoDB = async (
   password: string,
   employeeData: Employee
 ) => {
+  const company = await CompanyModel.findOne({
+    companyEmail: employeeData.companyEmail,
+  })
+    .select("registeredPackage")
+    .populate("registeredPackage", "userLimit");
+
+  const userLimit = (company?.registeredPackage as RegisteredPackage)
+    ?.userLimit;
+
+  // BranchModel থেকে branchEmail গুলো বের করে আনা
+  const branches = await BranchModel.find({
+    companyEmail: employeeData.companyEmail,
+  }).select("branchEmail");
+
+  // branchEmail গুলো একটি অ্যারের মধ্যে রেখে দেওয়া
+  const branchEmails = branches.map((branch) => branch.branchEmail);
+
+  // EmployeeModel এ এই branchEmails দিয়ে কেবল সংখ্যাটি বের করা
+  const employeeCount = await EmployeeModel.countDocuments({
+    branchEmail: { $in: branchEmails },
+  });
+
+  if (userLimit <= employeeCount) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Employee Limit is Full");
+  }
+
   const isEmployeeExits = await EmployeeModel.findOne({
     employeeEmail: employeeData.employeeEmail,
   });
@@ -24,10 +54,9 @@ const createEmployeeIntoDB = async (
   // create a user object
   const userData: Partial<User> = {};
 
-  userData.userId = employeeData.employeeId;
   userData.email = employeeData.employeeEmail;
   userData.password = password;
-  userData.role = "fieldOfficer";
+  userData.role = employeeData.employeeDesignation;
   userData.status = "in-progress";
   userData.isDeleted = false;
 
@@ -45,6 +74,11 @@ const createEmployeeIntoDB = async (
 
     // set userId , _id as userId
     employeeData.userId = newUser[0]._id; //reference _id
+
+    // set employeeId
+    employeeData.employeeId = await generateEmployeeId(
+      employeeData.branchEmail
+    );
 
     // create a Admin (transaction-2)
     const newEmployee = await EmployeeModel.create([employeeData], { session });
@@ -65,7 +99,9 @@ const createEmployeeIntoDB = async (
 };
 
 const getAllEmployeeFromDB = async (email: string) => {
-  const result = await EmployeeModel.find({ branchEmail: { $eq: email } }).populate("userId");
+  const result = await EmployeeModel.find({
+    branchEmail: { $eq: email },
+  }).populate("userId");
   return result;
 };
 

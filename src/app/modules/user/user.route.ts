@@ -25,4 +25,10 @@ router.patch(
   UserControllers.updateUserStatus
 );
 
+router.patch(
+  "/blockedUserStatus",
+  // auth(USER_ROLE.superAdmin),
+  UserControllers.blockedUserStatus
+);
+
 export const UserRoutes = router;

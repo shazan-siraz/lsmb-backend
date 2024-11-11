@@ -1,19 +1,23 @@
 import { Types } from "mongoose";
 
 export type Employee = {
-  employeeId: string;
-  employeeEmail: string;
   userId: Types.ObjectId;
+  employeeId: number;
+  employeeEmail: string;
+  branch: Types.ObjectId;
   branchEmail: string;
+  companyEmail: string;
   employeeName: string;
   joiningDate: string;
-  employeeType: string;
+  employeeType: "fullTime" | "partTime" | "seasonal" | "temporary";
+  employeeDesignation: "manager" | "accountant" | "fieldOfficer";
   phoneNo: string;
   employeeNid: string;
   presentAddress: string;
+  permanentAddress: string;
   fatherName: string;
   motherName: string;
-  bloodGroup: string;
+  bloodGroup: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   degree: string;
   basicSalary: number;
   mobileBill: number;
@@ -21,10 +25,11 @@ export type Employee = {
   medicalAllowance: number;
   houseRent: number;
   incentiveBonus: number;
-  others: number;
+  others?: number;
   professionalTax: number;
   incomeTax: number;
   providentFund: number;
   totalSalary: number;
   profileImage: string;
+  attachments: string[];
 };
