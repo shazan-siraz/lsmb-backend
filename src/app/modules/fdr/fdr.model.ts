@@ -9,6 +9,7 @@ const FdrSchema = new Schema<Fdr>(
       required: true,
     },
     branchEmail: { type: String, required: true },
+    companyEmail: { type: String, required: true },
     FdrStart: { type: String, required: true },
     FdrAcNo: { type: String, required: true },
     FixedDepositAmount: { type: Number, required: true },

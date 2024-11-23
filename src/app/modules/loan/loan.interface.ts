@@ -3,11 +3,12 @@ import { Types } from "mongoose";
 export type Loan = {
   memberOfApplying: Types.ObjectId;
   branchEmail: string;
+  companyEmail: string;
   startDate: string;
   endDate: string;
   loanNo: string;
   loanAmount: number;
-  percentageOfInterest: string;
+  percentageOfInterest: number;
   processFees?: number;
   insurance?: number;
   installmentMode: {
@@ -15,8 +16,9 @@ export type Loan = {
     installType: "Daily" | "Weekly" | "Monthly" | "Yearly";
     totalReceivable?: string;
   };
-  installmentAmount: string;
-  attachment: string;
+  installmentAmount?: string;
+  interestAmount?: string;
+  attachment: string[];
   loanType:
     | "Personal"
     | "Payday"
@@ -33,12 +35,11 @@ export type Loan = {
     | "Land";
   guarantorEmployee?: Types.ObjectId;
   gurantorMember?: Types.ObjectId;
-  loanGuarantor: {
+  loanGuarantor: [{
     name: string;
     phone: number;
     nid: number;
-    bankAc?: string;
-    attDocument?: string;
-  };
+    bankAccount?: string;
+  }];
   status: "Pending" | "Active" | "OverDue" | "Completed";
 };

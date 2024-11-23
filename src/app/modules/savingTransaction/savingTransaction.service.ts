@@ -12,7 +12,8 @@ const createSavingTransactionIntoDB = async (payload: SavingTransaction) => {
     throw new AppError(404, "Membership not found!");
   }
 
-  const addedSavingAmount = membership.accountBalance + payload.savingAmount;
+  const addedSavingAmount =
+    membership.accountBalance + Number(payload.savingsAmount);
 
   const session = await mongoose.startSession();
 
@@ -48,7 +49,9 @@ const createSavingTransactionIntoDB = async (payload: SavingTransaction) => {
 };
 
 const getAllSavingTransactionFromDB = async (email: string) => {
-  const result = await SavingTransactionModel.find({ branchEmail: { $eq: email } }).populate('memberId');
+  const result = await SavingTransactionModel.find({
+    branchEmail: { $eq: email },
+  }).populate("memberId");
   return result;
 };
 

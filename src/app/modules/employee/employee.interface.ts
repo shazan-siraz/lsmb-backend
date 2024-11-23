@@ -31,5 +31,16 @@ export type Employee = {
   providentFund: number;
   totalSalary: number;
   profileImage: string;
-  attachments: string[];
+  signature: string;
+  nidFirstPart: string;
+  nidSeconedPart: string;
+  attachments?: string[];
+  jabindar: {
+    jabindarName: string;
+    jabindarPhone: number;
+    jabindarNid: string;
+    jabindarSignature: string;
+    jabindarNidFirstPart: string;
+    jabindarNidSeconedPart: string;
+  };
 };

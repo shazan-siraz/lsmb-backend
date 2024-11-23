@@ -9,11 +9,12 @@ const LoanSchema = new Schema<Loan>(
       required: true,
     },
     branchEmail: { type: String, required: true },
+    companyEmail: { type: String, required: true },
     startDate: { type: String, required: true },
     endDate: { type: String, required: true },
-    loanNo: { type: String, required: true, unique: true },
+    loanNo: { type: String, required: true },
     loanAmount: { type: Number, required: true },
-    percentageOfInterest: { type: String, required: true },
+    percentageOfInterest: { type: Number, required: true },
     processFees: { type: Number },
     insurance: { type: Number },
     installmentMode: {
@@ -25,8 +26,9 @@ const LoanSchema = new Schema<Loan>(
       },
       totalReceivable: { type: String },
     },
-    installmentAmount: { type: String, required: true },
-    attachment: { type: String, required: true },
+    installmentAmount: { type: String },
+    interestAmount: { type: String },
+    attachment: { type: [String] },
     loanType: {
       type: String,
       enum: [
@@ -54,13 +56,12 @@ const LoanSchema = new Schema<Loan>(
       type: Schema.Types.ObjectId,
       ref: "Membership",
     },
-    loanGuarantor: {
+    loanGuarantor: [{
       name: { type: String, required: true },
       phone: { type: Number, required: true },
       nid: { type: Number, required: true },
-      bankAc: { type: String },
-      attDocument: { type: String },
-    },
+      bankAccount: { type: String },
+    }],
     status: {
       type: String,
       enum: ["Pending", "Active", "OverDue", "Completed"],

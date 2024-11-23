@@ -45,11 +45,23 @@ const EmployeeSchema = new Schema<Employee>(
     providentFund: { type: Number, required: true },
     totalSalary: { type: Number, required: true },
     profileImage: { type: String, required: true },
-    attachments: { type: [String], required: true },
+    signature: { type: String, required: true },
+    nidFirstPart: { type: String, required: true },
+    nidSeconedPart: { type: String, required: true },
+    attachments: { type: [String] },
+    jabindar: {
+      jabindarName: { type: String, required: true },
+      jabindarPhone: { type: Number, required: true },
+      jabindarNid: { type: String, required: true },
+      jabindarSignature: { type: String, required: true },
+      jabindarNidFirstPart: { type: String, required: true },
+      jabindarNidSeconedPart: { type: String, required: true },
+    },
   },
   {
     timestamps: true,
   }
 );
+
 
 export const EmployeeModel = model<Employee>("Employee", EmployeeSchema);

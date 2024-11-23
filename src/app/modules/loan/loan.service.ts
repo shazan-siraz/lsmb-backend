@@ -13,11 +13,19 @@ const getAllLoanFromDB = async (email: string) => {
   return result;
 };
 
+const getSingleLoanFromDB = async (id: string) => {
+  const result = await LoanModel.findById({
+    _id: id,
+  }).populate("memberOfApplying");
+  return result;
+};
+
 const getPendingLoanFromDB = async (email: string) => {
   const result = await LoanModel.find({
     branchEmail: email,
     status: { $eq: "Pending" },
   }).populate("memberOfApplying");
+
   return result;
 };
 
@@ -48,7 +56,7 @@ const getOverdueLoanFromDB = async (email: string) => {
   const today = new Date();
 
   // Filter for loans where endDate is not over
-  const activeLoans = loanData.filter(item => {
+  const activeLoans = loanData.filter((item) => {
     const endDate = new Date(item.endDate); // Correctly parse "YYYY-MM-DD"
     return endDate <= today; // Check if endDate is today or in the future
   });
@@ -59,8 +67,9 @@ const getOverdueLoanFromDB = async (email: string) => {
 export const LoanServices = {
   createLoanIntoDB,
   getAllLoanFromDB,
+  getSingleLoanFromDB,
   getPendingLoanFromDB,
   getActiveLoanFromDB,
   updateLoanFromDB,
-  getOverdueLoanFromDB
+  getOverdueLoanFromDB,
 };

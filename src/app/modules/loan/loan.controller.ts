@@ -3,7 +3,7 @@ import { LoanServices } from "./loan.service";
 import { JwtPayload } from "jsonwebtoken";
 import { jwtDecode } from "jwt-decode";
 
-const createLoan = async (req: Request, res: Response) => {
+const createLoan = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await LoanServices.createLoanIntoDB(req.body);
 
@@ -14,11 +14,7 @@ const createLoan = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Something went wrong",
-      error: err,
-    });
+    next(err);
   }
 };
 
@@ -27,7 +23,7 @@ const getAllLoan = async (req: Request, res: Response) => {
     const { refreshToken } = req.cookies;
     const { email } = jwtDecode<JwtPayload>(refreshToken);
 
-    const result = await LoanServices.getAllLoanFromDB(email);
+    const result = await LoanServices.getAllLoanFromDB("branch@gmail.com");
 
     // send response
     res.status(200).json({
@@ -44,17 +40,16 @@ const getAllLoan = async (req: Request, res: Response) => {
   }
 };
 
-const getPendingLoan = async (req: Request, res: Response) => {
-  try {
-    const { refreshToken } = req.cookies;
-    const { email } = jwtDecode<JwtPayload>(refreshToken);
+const getSingleLoan = async (req: Request, res: Response) => {
+  const { id } = req.params;
 
-    const result = await LoanServices.getPendingLoanFromDB(email);
+  try {
+    const result = await LoanServices.getSingleLoanFromDB(id);
 
     // send response
     res.status(200).json({
       success: true,
-      message: "Pending Loan is retrieve successfully",
+      message: "Loan is retrieve successfully",
       data: result,
     });
   } catch (err) {
@@ -66,10 +61,32 @@ const getPendingLoan = async (req: Request, res: Response) => {
   }
 };
 
+const getPendingLoan = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result = await LoanServices.getPendingLoanFromDB(email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Pending Loan is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getActiveLoan = async (req: Request, res: Response) => {
   try {
-    const { refreshToken } = req.cookies;
-    const { email } = jwtDecode<JwtPayload>(refreshToken);
+    // const { refreshToken } = req.cookies;
+    // const { email } = jwtDecode<JwtPayload>(refreshToken);
+    const { email } = req.params;
 
     const result = await LoanServices.getActiveLoanFromDB(email);
 
@@ -135,8 +152,9 @@ const getOverdueLoan = async (
 export const LoanControllers = {
   createLoan,
   getAllLoan,
+  getSingleLoan,
   getPendingLoan,
   getActiveLoan,
   updateLoan,
-  getOverdueLoan
+  getOverdueLoan,
 };

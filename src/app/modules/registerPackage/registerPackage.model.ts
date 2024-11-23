@@ -1,7 +1,8 @@
 import { model, Schema, Types } from "mongoose";
-import { RegisterPackage } from "./registerPackage.interface";
+import { RegisteredPackage } from "./registerPackage.interface";
 
-const RegisterPackageSchema = new Schema<RegisterPackage>(
+
+const RegisterPackageSchema = new Schema<RegisteredPackage>(
   {
     packageName: { type: String, required: true },
     packagePrice: { type: Number, required: true },

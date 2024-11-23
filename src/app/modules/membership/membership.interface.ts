@@ -1,16 +1,18 @@
 import { Types } from "mongoose";
 
 export type Membership = {
-  memberName: string;
   memberId: number;
   branchEmail: string;
+  companyEmail: string;
+  branch: Types.ObjectId;
+  memberName: string;
   group: Types.ObjectId;
   assignFieldOfficer: Types.ObjectId;
-  phoneNo: number;
+  phoneNo: string;
   email: string;
-  memberNid: number;
+  memberNid: string;
   admissionFees?: number;
-  shareAmount?: string;
+  shareAmount?: number;
   dateOfBirth: string;
   age: number;
   gender: "male" | "female" | "other";
@@ -28,19 +30,21 @@ export type Membership = {
   thana: string;
   presentAddress: string;
   permanentAddress?: string;
-  status: "enable" | "disable";
   accountBalance: number;
   memberPhoto: string;
   signature: string;
-  passportOrNid: string;
-  chequeBook: string;
+  nidFrontPart: string;
+  nidBackPart: string;
   referenceEmployee?: Types.ObjectId;
   referenceMember?: Types.ObjectId;
-  nominee: {
+  attachments?: string[];
+  nominee: [{
     nomineeName: string;
     nomineePhone: number;
-    nomineeNid: number;
+    nomineeNid: string;
     nomineeRelation: string;
     distributation: number;
-  };
+  }];
+  status: "Enable" | "Disable";
+  isDeleted: boolean;
 };

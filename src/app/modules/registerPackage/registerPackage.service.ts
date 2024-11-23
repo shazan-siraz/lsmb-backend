@@ -1,8 +1,8 @@
-import { RegisterPackage } from "./registerPackage.interface";
+import { RegisteredPackage } from "./registerPackage.interface";
 import RegisterPackageModel from "./registerPackage.model";
 
 const createRegisterPackageIntoDB = async (
-  registerPackageData: RegisterPackage
+  registerPackageData: RegisteredPackage
 ) => {
   const result = await RegisterPackageModel.create(registerPackageData);
   return result;

@@ -1,12 +1,13 @@
 import { Types } from "mongoose";
 
-export type SavingTransaction = {
+export type LoanCollection = {
+  loanId: Types.ObjectId;
   memberId: Types.ObjectId;
   memberEmail: string;
   branchEmail: string;
   companyEmail: string;
-  dateOfCollection: string;
-  savingsAmount: number;
-  transactionId: string;
+  date: string;
+  installmentAmount: number;
+  penaltyAmount?: number;
   transactionNote?: string;
 };

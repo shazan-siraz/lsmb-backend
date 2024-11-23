@@ -3,14 +3,20 @@ import { Membership } from "./membership.interface";
 
 const MembershipSchema = new Schema<Membership>(
   {
-    memberName: { type: String, required: true },
     memberId: { type: Number, required: true },
     branchEmail: { type: String, required: true },
+    companyEmail: { type: String, required: true },
+    branch: { type: Schema.Types.ObjectId, required: true, ref: "Branch" },
+    memberName: { type: String, required: true },
     group: { type: Schema.Types.ObjectId, required: true, ref: "Group" },
-    assignFieldOfficer: { type: Schema.Types.ObjectId, required: true, ref: "Employee" },
-    phoneNo: { type: Number, required: true },
+    assignFieldOfficer: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Employee",
+    },
+    phoneNo: { type: String, required: true },
     email: { type: String, required: true },
-    memberNid: { type: Number, required: true },
+    memberNid: { type: String, required: true },
     admissionFees: { type: Number },
     shareAmount: { type: String },
     dateOfBirth: { type: String, required: true },
@@ -35,21 +41,28 @@ const MembershipSchema = new Schema<Membership>(
     thana: { type: String, required: true },
     presentAddress: { type: String, required: true },
     permanentAddress: { type: String },
-    status: { type: String, enum: ["enable", "disable"], required: true },
     accountBalance: { type: Number, required: true },
     memberPhoto: { type: String, required: true },
     signature: { type: String, required: true },
-    passportOrNid: { type: String, required: true },
-    chequeBook: { type: String, required: true },
+    nidFrontPart: { type: String, required: true },
+    nidBackPart: { type: String, required: true },
     referenceEmployee: { type: Schema.Types.ObjectId, ref: "Employee" },
     referenceMember: { type: Schema.Types.ObjectId, ref: "Membership" },
-    nominee: {
+    attachments: { type: [String] },
+    nominee: [{
       nomineeName: { type: String, required: true },
       nomineePhone: { type: Number, required: true },
       nomineeNid: { type: Number, required: true },
       nomineeRelation: { type: String, required: true },
       distributation: { type: Number, required: true },
+    }],
+    status: {
+      type: String,
+      enum: ["Enable", "Disable"],
+      default: "Enable",
+      required: true,
     },
+    isDeleted: { type: Boolean, default: false, required: true },
   },
   { timestamps: true }
 );

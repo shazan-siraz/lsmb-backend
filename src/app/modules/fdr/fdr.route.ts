@@ -7,13 +7,13 @@ const router = express.Router();
 
 router.post(
   "/create-fdr",
-  auth(USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.manager, USER_ROLE.branch),
   FdrControllers.createFdr
 );
 
 router.get(
   "/",
-  auth(USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.manager, USER_ROLE.branch),
   FdrControllers.getAllFdr
 );
 

@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 export type Fdr = {
   memberOfFdrApplying: Types.ObjectId;
   branchEmail: string;
+  companyEmail: string;
   FdrStart: string;
   FdrAcNo: string;
   FixedDepositAmount: number;

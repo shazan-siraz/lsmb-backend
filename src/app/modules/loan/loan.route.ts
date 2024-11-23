@@ -7,32 +7,38 @@ const router = express.Router();
 
 router.post(
   "/create-loan",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.manager, USER_ROLE.branch),
   LoanControllers.createLoan
 );
 router.get(
   "/",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  // auth(USER_ROLE.manager, USER_ROLE.branch),
   LoanControllers.getAllLoan
 );
 router.get(
-  "/pending-loan",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  "/:id",
+  // auth(USER_ROLE.manager, USER_ROLE.branch),
+  LoanControllers.getSingleLoan
+);
+
+router.get(
+  "/pending-loan/:email",
+  // auth(USER_ROLE.manager, USER_ROLE.branch),
   LoanControllers.getPendingLoan
 );
 router.get(
-  "/active-loan",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  "/active-loan/:email",
+  auth(USER_ROLE.manager, USER_ROLE.branch),
   LoanControllers.getActiveLoan
 );
 router.patch(
   "/statusUpdate-loan",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.manager, USER_ROLE.branch),
   LoanControllers.updateLoan
 );
 router.get(
   "/overdue-loan",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.manager),
+  auth(USER_ROLE.manager, USER_ROLE.branch),
   LoanControllers.getOverdueLoan
 );
 

@@ -1,9 +1,14 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { MembershipServices } from "./membership.service";
 import { JwtPayload } from "jsonwebtoken";
 import { jwtDecode } from "jwt-decode";
+import { string } from "zod";
 
-const createMembership = async (req: Request, res: Response) => {
+const createMembership = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await MembershipServices.createMembershipIntoDB(req.body);
 
@@ -14,19 +19,18 @@ const createMembership = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Something went wrong",
-      error: err,
-    });
+    next(err);
   }
 };
 
 const getAllMembership = async (req: Request, res: Response) => {
-  const { refreshToken } = req.cookies;
-    const decoded = jwtDecode<JwtPayload>(refreshToken);
+  const {email} = req.params;
 
-  const result = await MembershipServices.getAllMembershipFromDB(decoded?.email);
+  console.log("inside get all member 000");
+
+  const result = await MembershipServices.getAllMembershipFromDB(
+    email
+  );
 
   // send response
   res.status(200).json({
@@ -37,8 +41,9 @@ const getAllMembership = async (req: Request, res: Response) => {
 };
 
 const getSingleMembership = async (req: Request, res: Response) => {
-
-  const result = await MembershipServices.getSingleMembershipFromDB(req.params.id);
+  const result = await MembershipServices.getSingleMembershipFromDB(
+    req.params.id
+  );
 
   // send response
   res.status(200).json({
@@ -48,8 +53,41 @@ const getSingleMembership = async (req: Request, res: Response) => {
   });
 };
 
+const findMember = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // const searchQuery = req.query.query;
+    // const email = req.body;
+
+    console.log("Inside searching Member");
+
+    // const { refreshToken } = req.cookies;
+    // const {email} = jwtDecode<JwtPayload>(refreshToken);
+
+    // const email = "branch@gmail.com";
+
+    // const result = await MembershipServices.getSearchingMemberFromDB(
+    //   searchQuery, email
+    // );
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Membership searching",
+      data: null,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const MembershipControllers = {
   createMembership,
   getAllMembership,
-  getSingleMembership
+  getSingleMembership,
+  findMember
 };
+
