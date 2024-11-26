@@ -24,13 +24,9 @@ const createMembership = async (
 };
 
 const getAllMembership = async (req: Request, res: Response) => {
-  const {email} = req.params;
+  const { email } = req.params;
 
-  console.log("inside get all member 000");
-
-  const result = await MembershipServices.getAllMembershipFromDB(
-    email
-  );
+  const result = await MembershipServices.getAllMembershipFromDB(email);
 
   // send response
   res.status(200).json({
@@ -38,6 +34,27 @@ const getAllMembership = async (req: Request, res: Response) => {
     message: "Membership are retrieve successfully",
     data: result,
   });
+};
+
+const getAllSavingMembership = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result = await MembershipServices.getAllSavingMembershipFromDB(email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Saving Membership are retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const getSingleMembership = async (req: Request, res: Response) => {
@@ -53,31 +70,25 @@ const getSingleMembership = async (req: Request, res: Response) => {
   });
 };
 
-const findMember = async (
+const searchMember = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    // const searchQuery = req.query.query;
-    // const email = req.body;
+    const searchQuery = req.query.query;
+    const searchEmail = req.query.email;
 
-    console.log("Inside searching Member");
-
-    // const { refreshToken } = req.cookies;
-    // const {email} = jwtDecode<JwtPayload>(refreshToken);
-
-    // const email = "branch@gmail.com";
-
-    // const result = await MembershipServices.getSearchingMemberFromDB(
-    //   searchQuery, email
-    // );
+    const result = await MembershipServices.searchMemberFromDB(
+      searchQuery,
+      searchEmail
+    );
 
     // send response
     res.status(200).json({
       success: true,
-      message: "Membership searching",
-      data: null,
+      message: "Membership searching successfully",
+      data: result,
     });
   } catch (err) {
     next(err);
@@ -87,7 +98,7 @@ const findMember = async (
 export const MembershipControllers = {
   createMembership,
   getAllMembership,
+  getAllSavingMembership,
   getSingleMembership,
-  findMember
+  searchMember,
 };
-

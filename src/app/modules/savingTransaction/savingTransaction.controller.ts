@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { SavingTransactionServices } from "./savingTransaction.service";
 import { JwtPayload } from "jsonwebtoken";
 import { jwtDecode } from "jwt-decode";
@@ -25,12 +25,13 @@ const createSavingTransaction = async (req: Request, res: Response) => {
 
 const getAllSavingTransaction = async (req: Request, res: Response) => {
   try {
-
     const { refreshToken } = req.cookies;
     const decoded = jwtDecode<JwtPayload>(refreshToken);
 
     const result =
-      await SavingTransactionServices.getAllSavingTransactionFromDB(decoded?.email);
+      await SavingTransactionServices.getAllSavingTransactionFromDB(
+        decoded?.email
+      );
 
     // send response
     res.status(200).json({
@@ -47,7 +48,56 @@ const getAllSavingTransaction = async (req: Request, res: Response) => {
   }
 };
 
+const getTotalSavingTransactionAmount = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result =
+      await SavingTransactionServices.getTotalSavingTransactionAmountFromDB(
+        email
+      );
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Total Saving Transaction is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const todaySavingTransaction = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result = await SavingTransactionServices.todaySavingTransactionFromDB(
+      email
+    );
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "today Saving Transaction is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const SavingTransactionControllers = {
   createSavingTransaction,
   getAllSavingTransaction,
+  getTotalSavingTransactionAmount,
+  todaySavingTransaction,
 };

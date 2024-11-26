@@ -9,4 +9,14 @@ router.post(
 );
 router.get("/", SavingTransactionControllers.getAllSavingTransaction);
 
+router.get(
+  "/getTotalSavingtxnAmount/:email",
+  SavingTransactionControllers.getTotalSavingTransactionAmount
+);
+
+router.get(
+  "/todaySavingTxn/:email",
+  SavingTransactionControllers.todaySavingTransaction
+);
+
 export const SavingTransactionRoutes = router;

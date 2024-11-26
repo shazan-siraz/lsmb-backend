@@ -84,8 +84,6 @@ const getPendingLoan = async (
 
 const getActiveLoan = async (req: Request, res: Response) => {
   try {
-    // const { refreshToken } = req.cookies;
-    // const { email } = jwtDecode<JwtPayload>(refreshToken);
     const { email } = req.params;
 
     const result = await LoanServices.getActiveLoanFromDB(email);
@@ -149,6 +147,47 @@ const getOverdueLoan = async (
   }
 };
 
+const getTotalLoanAmountWithoutPorcessFees = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result =
+      await LoanServices.getTotalLoanAmountWithoutPorcessFeesFromDB(email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message:
+        "Total Loan Amount without Process fees is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const searchLoan = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const query = req.query.query;
+    const email = req.query.email;
+
+    const result = await LoanServices.searchLoanFromDB(query, email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Search Loan is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const LoanControllers = {
   createLoan,
   getAllLoan,
@@ -157,4 +196,6 @@ export const LoanControllers = {
   getActiveLoan,
   updateLoan,
   getOverdueLoan,
+  getTotalLoanAmountWithoutPorcessFees,
+  searchLoan,
 };

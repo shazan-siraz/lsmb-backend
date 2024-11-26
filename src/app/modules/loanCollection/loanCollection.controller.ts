@@ -75,9 +75,7 @@ const lastLoanCollection = async (
 ) => {
   try {
     const { email } = req.params;
-    const result = await LoanCollectionServices.lastLoanCollectionFromDB(
-      email
-    );
+    const result = await LoanCollectionServices.lastLoanCollectionFromDB(email);
 
     // send response
     res.status(200).json({
@@ -90,8 +88,55 @@ const lastLoanCollection = async (
   }
 };
 
+const todayLoanCollection = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result = await LoanCollectionServices.todayLoanCollectionFromDB(
+      email
+    );
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "today Loan Transaction is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getTotalLoanCollectionAmount = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result =
+      await LoanCollectionServices.getTotalLoanCollectionAmountFromDB(email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Total Loan Collection Amount is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const LoanCollectionControllers = {
   createLoanCollection,
   totalLoanCollection,
-  lastLoanCollection
+  lastLoanCollection,
+  todayLoanCollection,
+  getTotalLoanCollectionAmount,
 };

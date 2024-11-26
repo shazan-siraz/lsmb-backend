@@ -105,7 +105,19 @@ const getAllEmployeeFromDB = async (email: string) => {
   return result;
 };
 
+const getSingleEmployeeFromDB = async (email: string) => {
+
+  console.log(email);
+
+
+  const result = await EmployeeModel.findOne({
+    employeeEmail: email,
+  }).populate("userId");
+  return result;
+};
+
 export const EmployeeServices = {
   createEmployeeIntoDB,
   getAllEmployeeFromDB,
+  getSingleEmployeeFromDB
 };

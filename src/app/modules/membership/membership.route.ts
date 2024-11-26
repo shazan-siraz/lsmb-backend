@@ -4,8 +4,9 @@ import { MembershipControllers } from "./membership.controller";
 const router = express.Router();
 
 router.post("/create-membership", MembershipControllers.createMembership);
-router.get("/:email", MembershipControllers.getAllMembership);
+router.get("/searchMember", MembershipControllers.searchMember);
+router.get("/getAllMember/:email", MembershipControllers.getAllMembership);
+router.get("/getAllSavingMember/:email", MembershipControllers.getAllSavingMembership);
 router.get("/single-membership/:id", MembershipControllers.getSingleMembership);
-router.get("/findMember", MembershipControllers.findMember);
 
 export const MemberShipRoutes = router;

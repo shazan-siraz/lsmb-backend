@@ -8,6 +8,8 @@ const LoanSchema = new Schema<Loan>(
       ref: "Membership",
       required: true,
     },
+    memberName: { type: String, required: true },
+    memberPhone: { type: String, required: true },
     branchEmail: { type: String, required: true },
     companyEmail: { type: String, required: true },
     startDate: { type: String, required: true },

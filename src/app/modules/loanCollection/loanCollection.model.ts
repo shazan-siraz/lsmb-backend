@@ -13,6 +13,7 @@ const LoanCollectionSchema = new Schema<LoanCollection>(
       ref: "Membership",
       required: true,
     },
+    transactionId: { type: String, required: true },
     memberEmail: { type: String, required: true },
     branchEmail: { type: String, required: true },
     companyEmail: { type: String, required: true },

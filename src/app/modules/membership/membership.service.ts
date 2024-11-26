@@ -61,52 +61,52 @@ const getAllMembershipFromDB = async (email: string) => {
   return result;
 };
 
+const getAllSavingMembershipFromDB = async (email: string) => {
+  const result = await MembershipModel.aggregate([
+    { $match: { branchEmail: email, accountBalance: { $gt: 0 } } },
+  ]);
+
+  return result;
+};
+
 const getSingleMembershipFromDB = async (id: string) => {
   const result = await MembershipModel.findById({ _id: id });
   return result;
 };
 
-const findMemberFromDB = async (
-  searchQuery: any,
-  branchEmail: string
-) => {
+const searchMemberFromDB = async (searchQuery: any, searchEmail: any) => {
   try {
-    // প্রথমে চেক করুন যদি searchQuery একটি নাম্বার হয়
-    const isNumber = !isNaN(searchQuery);
+    // Check if searchQuery is a number
+    const isNumber = !isNaN(Number(searchQuery));
 
-    const results = await MembershipModel.find({
+    // Build query dynamically
+    const query = {
+      branchEmail: searchEmail, // Branch-specific filtering
       $or: [
-        { memberName: { $regex: searchQuery, $options: "i" } }, // memberName এ স্ট্রিং অনুসন্ধান
-        { phoneNo: { $regex: searchQuery, $options: "i" } }, // memberName এ স্ট্রিং অনুসন্ধান
-        ...(isNumber
-          ? [
-              { memberId: searchQuery }, // memberId নাম্বার হিসেবে
-            ]
-          : []),
+        { memberName: { $regex: searchQuery, $options: "i" } },
+        { phoneNo: { $regex: searchQuery, $options: "i" } },
+        ...(isNumber ? [{ memberId: searchQuery }] : []),
       ],
-    });
+    };
 
-    const filteredData = results.filter(
-      (item) => item.branchEmail === branchEmail
-    );
+    const results = await MembershipModel.find(query);
 
-    if (!filteredData.length) {
-      console.log("No members found.");
+    // Log results if needed
+    if (!results.length) {
       return [];
     }
 
-
-    // return filteredData;
     return results;
   } catch (error) {
     console.error("Error searching members:", error);
-    throw error;
+    throw new Error("Failed to search members. Please try again later.");
   }
 };
 
 export const MembershipServices = {
   createMembershipIntoDB,
   getAllMembershipFromDB,
+  getAllSavingMembershipFromDB,
   getSingleMembershipFromDB,
-  findMemberFromDB,
+  searchMemberFromDB,
 };

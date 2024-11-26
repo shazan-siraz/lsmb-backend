@@ -17,4 +17,15 @@ router.get(
   EmployeeController.getAllEmployee
 );
 
+router.get(
+  "/getSingleEmployee/:email",
+  // auth(
+  //   USER_ROLE.branch,
+  //   USER_ROLE.manager,
+  //   USER_ROLE.fieldOfficer,
+  //   USER_ROLE.accountant
+  // ),
+  EmployeeController.getSingleEmployee
+);
+
 export const EmployeeRoutes = router;

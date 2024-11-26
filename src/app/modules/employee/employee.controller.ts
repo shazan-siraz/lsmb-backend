@@ -49,7 +49,29 @@ const getAllEmployee = async (
   }
 };
 
+const getSingleEmployee = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result = await EmployeeServices.getSingleEmployeeFromDB(email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Employee is retrieved successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const EmployeeController = {
   createEmployee,
   getAllEmployee,
+  getSingleEmployee,
 };

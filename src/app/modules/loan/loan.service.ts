@@ -64,6 +64,58 @@ const getOverdueLoanFromDB = async (email: string) => {
   return activeLoans;
 };
 
+const getTotalLoanAmountWithoutPorcessFeesFromDB = async (email: string) => {
+  const result = await LoanModel.aggregate([
+    { $match: { branchEmail: email, status: "Active" } },
+    {
+      $group: {
+        _id: null,
+        totalLoanAmount: { $sum: "$loanAmount" }, // loanAmount এর যোগফল
+        totalProcessFees: { $sum: "$processFees" }, // processFees এর যোগফল
+      },
+    },
+    {
+      $project: {
+        _id: 0, // _id কে বাদ দেওয়া
+        netAmount: { $subtract: ["$totalLoanAmount", "$totalProcessFees"] },
+      },
+    },
+  ]);
+
+  return result[0]?.netAmount || 0;
+};
+
+const searchLoanFromDB = async (searchQuery: any, searchEmail: any) => {
+  try {
+    // Check if searchQuery is a number
+    const isNumber = !isNaN(Number(searchQuery));
+
+    // Build query dynamically
+    const query = {
+      branchEmail: searchEmail, // Branch-specific filtering
+      status: "Active", // Branch-specific filtering
+      $or: [
+        { memberName: { $regex: searchQuery, $options: "i" } }, // Case-insensitive search for name
+        { memberPhone: { $regex: searchQuery, $options: "i" } }, // Case-insensitive search for phone
+        ...(isNumber ? [{ loanAmount: searchQuery }] : []), // Search for exact memberId if it's a number
+      ],
+    };
+
+    const results = await LoanModel.find(query).populate("memberOfApplying");
+
+    // Log results if needed
+    if (!results.length) {
+      console.log("No members found.");
+      return [];
+    }
+
+    return results;
+  } catch (error) {
+    console.error("Error searching members:", error);
+    throw new Error("Failed to search members. Please try again later.");
+  }
+};
+
 export const LoanServices = {
   createLoanIntoDB,
   getAllLoanFromDB,
@@ -72,4 +124,6 @@ export const LoanServices = {
   getActiveLoanFromDB,
   updateLoanFromDB,
   getOverdueLoanFromDB,
+  getTotalLoanAmountWithoutPorcessFeesFromDB,
+  searchLoanFromDB,
 };

@@ -55,7 +55,32 @@ const getAllSavingTransactionFromDB = async (email: string) => {
   return result;
 };
 
+const getTotalSavingTransactionAmountFromDB = async (email: string) => {
+  const result = await SavingTransactionModel.aggregate([
+    { $match: { branchEmail: email } },
+    { $group: { _id: null, totalAmount: { $sum: "$savingsAmount" } } },
+  ]);
+  return result[0]?.totalAmount || 0;
+};
+
+const todaySavingTransactionFromDB = async (email: string) => {
+  const today = new Date();
+  const startOfDay = new Date(today.setHours(0, 0, 0, 0)); // আজকের শুরু
+  const endOfDay = new Date(today.setHours(23, 59, 59, 999)); // আজকের শেষ
+
+  const result = await SavingTransactionModel.find({
+    branchEmail: { $eq: email },
+    createdAt: { $gte: startOfDay, $lte: endOfDay },
+  })
+    .sort({ createdAt: -1 }) // Descending order
+    .populate("memberId");
+
+  return result;
+};
+
 export const SavingTransactionServices = {
   createSavingTransactionIntoDB,
   getAllSavingTransactionFromDB,
+  getTotalSavingTransactionAmountFromDB,
+  todaySavingTransactionFromDB,
 };

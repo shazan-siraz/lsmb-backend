@@ -3,6 +3,7 @@ export const USER_ROLE = {
   admin: "admin",
   branch: "branch",
   manager: "manager",
+  accountant: "accountant",
   fieldOfficer: "fieldOfficer",
 } as const;
 

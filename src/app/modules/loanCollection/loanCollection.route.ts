@@ -23,10 +23,18 @@ router.get(
   LoanCollectionControllers.lastLoanCollection
 );
 
-// router.get(
-//   "/",
-//   auth(USER_ROLE.manager, USER_ROLE.branch),
-//   LoanControllers.getAllLoan
-// );
+router.get(
+  "/todayLoanCollection/:email",
+  auth(USER_ROLE.manager, USER_ROLE.branch, USER_ROLE.accountant, USER_ROLE.fieldOfficer),
+  LoanCollectionControllers.todayLoanCollection
+);
+
+router.get(
+  "/getTotalLoanCollectionAmount/:email",
+  // auth(USER_ROLE.manager, USER_ROLE.branch, USER_ROLE.accountant, USER_ROLE.fieldOfficer),
+  LoanCollectionControllers.getTotalLoanCollectionAmount
+);
+
+
 
 export const LoanCollectionRoutes = router;

@@ -2,6 +2,8 @@ import { Types } from "mongoose";
 
 export type Loan = {
   memberOfApplying: Types.ObjectId;
+  memberName: string;
+  memberPhone: string;
   branchEmail: string;
   companyEmail: string;
   startDate: string;
