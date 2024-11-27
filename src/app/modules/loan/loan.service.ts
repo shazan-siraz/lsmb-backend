@@ -66,18 +66,24 @@ const getOverdueLoanFromDB = async (email: string) => {
 
 const getTotalLoanAmountWithoutPorcessFeesFromDB = async (email: string) => {
   const result = await LoanModel.aggregate([
-    { $match: { branchEmail: email, status: "Active" } },
+    { $match: { branchEmail: email, status: "Active" } }, // Active loans match
     {
       $group: {
         _id: null,
-        totalLoanAmount: { $sum: "$loanAmount" }, // loanAmount এর যোগফল
-        totalProcessFees: { $sum: "$processFees" }, // processFees এর যোগফল
+        totalLoanAmount: { $sum: "$loanAmount" }, // Sum of loan amounts
+        totalInsurance: { $sum: "$insurance" }, // Sum of insurances
+        totalProcessFees: { $sum: "$processFees" }, // Sum of process fees
       },
     },
     {
       $project: {
-        _id: 0, // _id কে বাদ দেওয়া
-        netAmount: { $subtract: ["$totalLoanAmount", "$totalProcessFees"] },
+        _id: 0, // Exclude the _id field
+        netAmount: {
+          $subtract: [
+            { $add: ["$totalLoanAmount", "$totalInsurance"] },
+            "$totalProcessFees",
+          ],
+        },
       },
     },
   ]);
