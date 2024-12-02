@@ -74,6 +74,27 @@ const getSingleMembershipFromDB = async (id: string) => {
   return result;
 };
 
+const getTotalShareAmountAndProcessFeesFromDB = async (email: string) => {
+  const result = await MembershipModel.aggregate([
+    { $match: { branchEmail: email } }, // Branch match
+    {
+      $group: {
+        _id: null,
+        totalAdmissionFees: { $sum: "$admissionFees" }, // Sum of admissionFees
+        totalShareAmount: { $sum: "$shareAmount" }, // Sum of shareAmount
+      },
+    },
+    {
+      $project: {
+        _id: 0, // Exclude the _id field
+        netAmount: { $add: ["$totalAdmissionFees", "$totalShareAmount"] },
+      },
+    },
+  ]);
+
+  return result[0]?.netAmount || 0;
+};
+
 const searchMemberFromDB = async (searchQuery: any, searchEmail: any) => {
   try {
     // Check if searchQuery is a number
@@ -108,5 +129,6 @@ export const MembershipServices = {
   getAllMembershipFromDB,
   getAllSavingMembershipFromDB,
   getSingleMembershipFromDB,
+  getTotalShareAmountAndProcessFeesFromDB,
   searchMemberFromDB,
 };

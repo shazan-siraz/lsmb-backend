@@ -23,9 +23,8 @@ const createFdr = async (req: Request, res: Response) => {
 };
 
 const getAllFdr = async (req: Request, res: Response) => {
-
   const { refreshToken } = req.cookies;
-    const {email} = jwtDecode<JwtPayload>(refreshToken);
+  const { email } = jwtDecode<JwtPayload>(refreshToken);
 
   const result = await FdrServices.getAllFdrFromDB(email);
 
@@ -37,7 +36,21 @@ const getAllFdr = async (req: Request, res: Response) => {
   });
 };
 
+const getSingleFdr = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await FdrServices.getSingleFdrFromDB(id);
+
+  // send response
+  res.status(200).json({
+    success: true,
+    message: "Fdr is retrieve successfully",
+    data: result,
+  });
+};
+
 export const FdrControllers = {
   createFdr,
   getAllFdr,
+  getSingleFdr,
 };

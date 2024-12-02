@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Fdr } from "./fdr.interface";
 import { FdrModel } from "./fdr.model";
 
@@ -13,8 +14,16 @@ const getAllFdrFromDB = async (email: string) => {
   return result;
 };
 
+const getSingleFdrFromDB = async (id: string) => {
+  const result = await FdrModel.findOne({
+    memberOfFdrApplying: new mongoose.Types.ObjectId(id),
+  }).populate("memberOfFdrApplying");
+
+  return result;
+};
+
 export const FdrServices = {
   createFdrIntoDB,
   getAllFdrFromDB,
+  getSingleFdrFromDB,
 };
-

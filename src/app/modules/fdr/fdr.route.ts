@@ -17,4 +17,11 @@ router.get(
   FdrControllers.getAllFdr
 );
 
+router.get(
+  "/getSingleFdr/:id",
+  // auth(USER_ROLE.manager, USER_ROLE.branch),
+  FdrControllers.getSingleFdr
+);
+
 export const FdrRoutes = router;
+

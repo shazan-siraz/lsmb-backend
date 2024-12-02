@@ -7,6 +7,8 @@ const createRegisterPackage = async (
   next: NextFunction
 ) => {
   try {
+    console.log("Inside Controller");
+
     const result = await RegisterPackageServices.createRegisterPackageIntoDB(
       req.body
     );

@@ -4,6 +4,9 @@ import RegisterPackageModel from "./registerPackage.model";
 const createRegisterPackageIntoDB = async (
   registerPackageData: RegisteredPackage
 ) => {
+  console.log("Inside Service");
+  console.log(registerPackageData);
+
   const result = await RegisterPackageModel.create(registerPackageData);
   return result;
 };

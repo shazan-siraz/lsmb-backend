@@ -107,9 +107,6 @@ const getAllEmployeeFromDB = async (email: string) => {
 
 const getSingleEmployeeFromDB = async (email: string) => {
 
-  console.log(email);
-
-
   const result = await EmployeeModel.findOne({
     employeeEmail: email,
   }).populate("userId");

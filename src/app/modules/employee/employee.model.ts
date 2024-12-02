@@ -5,7 +5,7 @@ const EmployeeSchema = new Schema<Employee>(
   {
     userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     employeeId: { type: Number, required: true },
-    employeeEmail: { type: String, required: true, unique: true },
+    employeeEmail: { type: String, required: true },
     branch: { type: Schema.Types.ObjectId, required: true, ref: "Branch" },
     branchEmail: { type: String, required: true },
     companyEmail: { type: String, required: true },

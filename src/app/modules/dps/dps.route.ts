@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post(
   "/create-dps",
-  auth(USER_ROLE.manager, USER_ROLE.branch),
+  // auth(USER_ROLE.manager, USER_ROLE.branch),
   DpsControllers.createDps
 );
 
@@ -15,6 +15,12 @@ router.get(
   "/",
   auth(USER_ROLE.manager, USER_ROLE.branch),
   DpsControllers.getAllDps
+);
+
+router.get(
+  "/getSingleDps/:id",
+  // auth(USER_ROLE.manager, USER_ROLE.branch),
+  DpsControllers.getSingleDps
 );
 
 export const DpsRoutes = router;

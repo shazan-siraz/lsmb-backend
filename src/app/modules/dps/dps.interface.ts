@@ -13,4 +13,6 @@ export type Dps = {
   returnAmount: number;
   referenceEmployee?: Types.ObjectId;
   referenceMember?: Types.ObjectId;
+  status: "Active" | "Pending" | "Block";
+  isDeleted: boolean;
 };

@@ -22,16 +22,26 @@ import { SoftwareUsersRoutes } from "./app/modules/softwareUsers/softwareUsers.r
 import { ArticleRoutes } from "./app/modules/article/article.route";
 import { CompanyRoutes } from "./app/modules/company/company.route";
 import { LoanCollectionRoutes } from "./app/modules/loanCollection/loanCollection.route";
+import { PackageRoutes } from "./app/modules/package/package.route";
 
 const app: Application = express();
+
+const corsOptions = {
+  origin: ["https://softbankbd.com", "http://localhost:5173"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
 
 // parser
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors(corsOptions));
 
 // application route
 app.use("/api/v1/registerPackage", RegisterPackageRoutes);
+app.use("/api/v1/package", PackageRoutes);
 app.use("/api/v1/branch", BranchRoutes);
 app.use("/api/v1/groups", groupRoutes);
 app.use("/api/v1/membership", MemberShipRoutes);
@@ -63,3 +73,4 @@ app.use(notFound);
 app.use(globalErrorHandler);
 
 export default app;
+

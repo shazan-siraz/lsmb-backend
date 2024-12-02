@@ -36,7 +36,29 @@ const getAllDps = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getSingleDps = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+
+    const result = await DpsServices.getSingleDpsFromDB(id);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Dps is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const DpsControllers = {
   createDps,
   getAllDps,
+  getSingleDps
 };

@@ -7,6 +7,13 @@ router.post(
   "/create-savingWithdraw",
   SavingWithdrawControllers.createSavingWithdrawTransaction
 );
-router.get("/", SavingWithdrawControllers.getAllSavingWithdrawTransaction);
+
+router.get("/getTotalSavingWithdraw/:email", SavingWithdrawControllers.getTotalSavingWithdraw);
+
+router.get(
+  "/getOneMemberAllSavingWithdraw/:id",
+  SavingWithdrawControllers.getOneMemberAllSavingWithdraw
+);
 
 export const SavingWithdrawRoutes = router;
+

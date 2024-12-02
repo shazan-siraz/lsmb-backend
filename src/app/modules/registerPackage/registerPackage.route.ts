@@ -22,3 +22,4 @@ router.delete(
 );
 
 export const RegisterPackageRoutes = router;
+

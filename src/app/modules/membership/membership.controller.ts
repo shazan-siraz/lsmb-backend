@@ -70,6 +70,23 @@ const getSingleMembership = async (req: Request, res: Response) => {
   });
 };
 
+const getTotalShareAmountAndProcessFees = async (
+  req: Request,
+  res: Response
+) => {
+  const { email } = req.params;
+
+  const result =
+    await MembershipServices.getTotalShareAmountAndProcessFeesFromDB(email);
+
+  // send response
+  res.status(200).json({
+    success: true,
+    message: "Total Share Amount And Process Fees is retrieve successfully",
+    data: result,
+  });
+};
+
 const searchMember = async (
   req: Request,
   res: Response,
@@ -100,5 +117,6 @@ export const MembershipControllers = {
   getAllMembership,
   getAllSavingMembership,
   getSingleMembership,
+  getTotalShareAmountAndProcessFees,
   searchMember,
 };

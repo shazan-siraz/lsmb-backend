@@ -9,10 +9,9 @@ export type Membership = {
   group: Types.ObjectId;
   assignFieldOfficer: Types.ObjectId;
   phoneNo: string;
-  email: string;
+  email?: string;
   memberNid: string;
   admissionFees?: number;
-  shareAmount?: number;
   dateOfBirth: string;
   age: number;
   gender: "male" | "female" | "other";

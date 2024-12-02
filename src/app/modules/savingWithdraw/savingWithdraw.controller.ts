@@ -1,7 +1,11 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { SavingWithdrawServices } from "./savingWithdraw.service";
 
-const createSavingWithdrawTransaction = async (req: Request, res: Response) => {
+const createSavingWithdrawTransaction = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await SavingWithdrawServices.createSavingWithdrawIntoDB(
       req.body
@@ -14,17 +18,41 @@ const createSavingWithdrawTransaction = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Something went wrong",
-      error: err,
-    });
+    next(err);
   }
 };
 
-const getAllSavingWithdrawTransaction = async (req: Request, res: Response) => {
+const getTotalSavingWithdraw = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const result = await SavingWithdrawServices.getAllSavingWithdrawFromDB();
+    const { email } = req.params;
+    const result = await SavingWithdrawServices.getTotalSavingWithdrawFromDB(
+      email
+    );
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Saving Withdraw are retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getOneMemberAllSavingWithdraw = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const result =
+      await SavingWithdrawServices.getOneMemberAllSavingWithdrawFromDB(id);
 
     // send response
     res.status(200).json({
@@ -33,15 +61,12 @@ const getAllSavingWithdrawTransaction = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Something went wrong",
-      error: err,
-    });
+    next(err);
   }
 };
 
 export const SavingWithdrawControllers = {
   createSavingWithdrawTransaction,
-  getAllSavingWithdrawTransaction,
+  getTotalSavingWithdraw,
+  getOneMemberAllSavingWithdraw,
 };
