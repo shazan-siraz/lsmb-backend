@@ -267,6 +267,7 @@ const getSingleUserFromDB = async (email: string) => {
 };
 
 const updateUserStatusFromDB = async (payload: any) => {
+
   const user = await UserModel.findOne({ email: payload.email });
   const userStatus = user?.status;
 

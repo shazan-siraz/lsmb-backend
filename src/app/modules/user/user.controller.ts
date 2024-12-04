@@ -107,6 +107,7 @@ const updateUserStatus = async (
   res: Response,
   next: NextFunction
 ) => {
+
   try {
     const result = await UserServices.updateUserStatusFromDB(req.body);
 

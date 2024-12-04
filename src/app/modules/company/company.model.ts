@@ -15,7 +15,7 @@ const CompanySchema = new Schema<Company>(
     companyAddress: { type: String, required: true },
     registeredPackage: {
       type: Schema.Types.ObjectId,
-      ref: "RegisterPackage",
+      ref: "Package",
       required: true,
     },
     profileImage: { type: String },

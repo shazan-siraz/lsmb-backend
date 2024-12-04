@@ -3,9 +3,9 @@ import AppError from "../../errors/AppError";
 import { generateMemberId } from "../../utils/generateId";
 import { BranchModel } from "../branch/branch.model";
 import { CompanyModel } from "../company/company.model";
-import { RegisteredPackage } from "../registerPackage/registerPackage.interface";
 import { Membership } from "./membership.interface";
 import MembershipModel from "./membership.model";
+import { Package } from "../package/package.interface";
 
 const createMembershipIntoDB = async (memberData: Membership) => {
   const company = await CompanyModel.findOne({
@@ -14,7 +14,7 @@ const createMembershipIntoDB = async (memberData: Membership) => {
     .select("registeredPackage")
     .populate("registeredPackage", "memberLimit");
 
-  const memberLimit = (company?.registeredPackage as RegisteredPackage)
+  const memberLimit = (company?.registeredPackage as Package)
     ?.memberLimit;
 
   // BranchModel থেকে branchEmail গুলো বের করে আনা

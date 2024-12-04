@@ -7,8 +7,8 @@ import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 import { generateEmployeeId } from "../../utils/generateId";
 import { CompanyModel } from "../company/company.model";
-import { RegisteredPackage } from "../registerPackage/registerPackage.interface";
 import { BranchModel } from "../branch/branch.model";
+import { Package } from "../package/package.interface";
 
 const createEmployeeIntoDB = async (
   password: string,
@@ -20,7 +20,7 @@ const createEmployeeIntoDB = async (
     .select("registeredPackage")
     .populate("registeredPackage", "userLimit");
 
-  const userLimit = (company?.registeredPackage as RegisteredPackage)
+  const userLimit = (company?.registeredPackage as Package)
     ?.userLimit;
 
   // BranchModel থেকে branchEmail গুলো বের করে আনা
