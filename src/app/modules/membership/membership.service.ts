@@ -34,17 +34,6 @@ const createMembershipIntoDB = async (memberData: Membership) => {
     throw new AppError(httpStatus.BAD_REQUEST, "Member Limit is Full");
   }
 
-  const isMemberExits = await MembershipModel.findOne({
-    email: memberData.email,
-  });
-
-  if (isMemberExits) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      "Member Email is already exits!"
-    );
-  }
-
   // set memberId
   memberData.memberId = await generateMemberId(memberData.branchEmail);
 
@@ -74,20 +63,20 @@ const getSingleMembershipFromDB = async (id: string) => {
   return result;
 };
 
-const getTotalShareAmountAndProcessFeesFromDB = async (email: string) => {
+const getTotalMemberAccountBalaceAndProcessFeesFromDB = async (email: string) => {
   const result = await MembershipModel.aggregate([
     { $match: { branchEmail: email } }, // Branch match
     {
       $group: {
         _id: null,
         totalAdmissionFees: { $sum: "$admissionFees" }, // Sum of admissionFees
-        totalShareAmount: { $sum: "$shareAmount" }, // Sum of shareAmount
+        totalAccountBalance: { $sum: "$accountBalance" }, // Sum of accountBalance
       },
     },
     {
       $project: {
         _id: 0, // Exclude the _id field
-        netAmount: { $add: ["$totalAdmissionFees", "$totalShareAmount"] },
+        netAmount: { $add: ["$totalAdmissionFees", "$totalAccountBalance"] },
       },
     },
   ]);
@@ -129,6 +118,6 @@ export const MembershipServices = {
   getAllMembershipFromDB,
   getAllSavingMembershipFromDB,
   getSingleMembershipFromDB,
-  getTotalShareAmountAndProcessFeesFromDB,
+  getTotalMemberAccountBalaceAndProcessFeesFromDB,
   searchMemberFromDB,
 };

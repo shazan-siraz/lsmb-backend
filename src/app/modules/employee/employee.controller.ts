@@ -33,10 +33,9 @@ const getAllEmployee = async (
   next: NextFunction
 ) => {
   try {
-    const { refreshToken } = req.cookies;
-    const decoded = jwtDecode<JwtPayload>(refreshToken);
+    const { email } = req.params;
 
-    const result = await EmployeeServices.getAllEmployeeFromDB(decoded?.email);
+    const result = await EmployeeServices.getAllEmployeeFromDB(email);
 
     // send response
     res.status(200).json({

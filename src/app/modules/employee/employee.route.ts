@@ -12,8 +12,8 @@ router.post(
 );
 
 router.get(
-  "/",
-  auth(USER_ROLE.branch, USER_ROLE.manager),
+  "/:email",
+  auth(USER_ROLE.branch, USER_ROLE.manager, USER_ROLE.accountant, USER_ROLE.fieldOfficer),
   EmployeeController.getAllEmployee
 );
 

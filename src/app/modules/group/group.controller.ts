@@ -4,7 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
 
 const createGroup = async (req: Request, res: Response) => {
-  
   try {
     const result = await groupServices.createGroupIntoDB(req.body);
 
@@ -49,12 +48,10 @@ const updateGroup = async (req: Request, res: Response) => {
 };
 
 const getAllGroup = async (req: Request, res: Response) => {
-
   try {
-    const { refreshToken } = req.cookies;
-    const decoded = jwtDecode<JwtPayload>(refreshToken);
+    const { email } = req.params;
 
-    const result = await groupServices.getAllGroup(decoded?.email);
+    const result = await groupServices.getAllGroup(email);
 
     // send response
     res.status(200).json({

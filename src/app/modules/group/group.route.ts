@@ -10,15 +10,27 @@ router.post(
   auth(USER_ROLE.manager, USER_ROLE.branch),
   groupController.createGroup
 );
-router.get(
-  "/",
-  auth(USER_ROLE.branch, USER_ROLE.manager),
-  groupController.getAllGroup
-);
+
 router.patch(
   "/update-group",
-  auth(USER_ROLE.branch, USER_ROLE.manager),
+  auth(
+    USER_ROLE.branch,
+    USER_ROLE.manager,
+    USER_ROLE.accountant,
+    USER_ROLE.fieldOfficer
+  ),
   groupController.updateGroup
+);
+
+router.get(
+  "/:email",
+  auth(
+    USER_ROLE.branch,
+    USER_ROLE.manager,
+    USER_ROLE.accountant,
+    USER_ROLE.fieldOfficer
+  ),
+  groupController.getAllGroup
 );
 
 export const groupRoutes = router;
