@@ -57,8 +57,78 @@ const getSingleDps = async (
   }
 };
 
+const getSingleDpsById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+
+    const result = await DpsServices.getSingleDpsByIdFromDB(id);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Dps is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getTotalDpsAmount = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result = await DpsServices.getTotalDpsAmountFromDB(email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Total Dps amount is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const searchDpsAccount = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const searchQuery = req.query.query;
+    const searchEmail = req.query.email;
+
+    const result = await DpsServices.searchDpsAccountFromDB(
+      searchQuery,
+      searchEmail
+    );
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "DpsAccount searching successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const DpsControllers = {
   createDps,
   getAllDps,
-  getSingleDps
+  getSingleDps,
+  getTotalDpsAmount,
+  searchDpsAccount,
+  getSingleDpsById
 };

@@ -22,6 +22,7 @@ import { ArticleRoutes } from "./app/modules/article/article.route";
 import { CompanyRoutes } from "./app/modules/company/company.route";
 import { LoanCollectionRoutes } from "./app/modules/loanCollection/loanCollection.route";
 import { PackageRoutes } from "./app/modules/package/package.route";
+import { DpsCollectionRoutes } from "./app/modules/dpsCollection/dpsCollection.route";
 
 const app: Application = express();
 
@@ -58,6 +59,7 @@ app.use("/api/v1/softwareUsers", SoftwareUsersRoutes);
 app.use("/api/v1/article", ArticleRoutes);
 app.use("/api/v1/company", CompanyRoutes);
 app.use("/api/v1/loanCollection", LoanCollectionRoutes);
+app.use("/api/v1/dpsCollection", DpsCollectionRoutes);
 
 // Check if the server is running
 app.get("/", (req: Request, res: Response) => {

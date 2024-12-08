@@ -17,3 +17,4 @@ router.get(
 router.get("/single-membership/:id", MembershipControllers.getSingleMembership);
 
 export const MemberShipRoutes = router;
+

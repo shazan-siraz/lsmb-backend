@@ -11,6 +11,8 @@ router.post(
   DpsControllers.createDps
 );
 
+router.get("/searchDpsAccount", DpsControllers.searchDpsAccount);
+
 router.get(
   "/",
   auth(USER_ROLE.manager, USER_ROLE.branch),
@@ -18,9 +20,21 @@ router.get(
 );
 
 router.get(
+  "/getTotalDpsAmount/:email",
+  // auth(USER_ROLE.manager, USER_ROLE.branch),
+  DpsControllers.getTotalDpsAmount
+);
+
+router.get(
   "/getSingleDps/:id",
   // auth(USER_ROLE.manager, USER_ROLE.branch),
   DpsControllers.getSingleDps
+);
+
+router.get(
+  "/getSingleDpsById/:id",
+  // auth(USER_ROLE.manager, USER_ROLE.branch),
+  DpsControllers.getSingleDpsById
 );
 
 export const DpsRoutes = router;
