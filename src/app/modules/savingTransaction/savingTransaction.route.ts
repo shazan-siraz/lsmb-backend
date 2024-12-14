@@ -19,4 +19,15 @@ router.get(
   SavingTransactionControllers.todaySavingTransaction
 );
 
+router.post(
+  "/updateSavingTransaction",
+  SavingTransactionControllers.updateSavingTransaction
+);
+
+router.post(
+  "/deleteSavingTransaction",
+  SavingTransactionControllers.deleteSavingTransaction
+);
+
+
 export const SavingTransactionRoutes = router;

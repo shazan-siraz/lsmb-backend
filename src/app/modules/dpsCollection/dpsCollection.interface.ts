@@ -6,6 +6,7 @@ export type DpsCollection = {
   memberPhoneNo: string;
   branchEmail: string;
   companyEmail: string;
+  dpsId: Types.ObjectId;
   dateOfCollection: string;
   dpsAcNo: string;
   dpsCollectionAmount: number;

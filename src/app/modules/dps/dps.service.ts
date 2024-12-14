@@ -16,41 +16,42 @@ const createDpsIntoDB = async (dpsData: Dps) => {
     throw new AppError(httpStatus.BAD_REQUEST, "DPS A/C No has been taken!");
   }
 
-  // create a dpsCollection object
-  const dpsCollectionData: Partial<DpsCollection> = {};
-
-  dpsCollectionData.memberOfApplying = dpsData.memberOfApplying;
-  dpsCollectionData.branchEmail = dpsData.branchEmail;
-  dpsCollectionData.companyEmail = dpsData.companyEmail;
-  dpsCollectionData.dateOfCollection = dpsData.dpsStart;
-  dpsCollectionData.dpsAcNo = dpsData.dpsAcNo;
-  dpsCollectionData.dpsCollectionAmount = dpsData.startingBalance;
-  dpsCollectionData.penaltyAmount = 0;
-  dpsCollectionData.transactionNote = "";
-  dpsCollectionData.isDeleted = false;
-
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
 
-    // create a dpsCollection (transaction-1)
-    const dpsCollection = await DpsCollectionModel.create([dpsCollectionData], {
-      session,
-    }); // array
+    // Step 1: Create a DPS account
+    const [newDpsAccount] = await DpsModel.create([dpsData], { session });
 
-    if (!dpsCollection.length) {
+    if (!newDpsAccount) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create DpsAccount");
+    }
+
+    // Step 2: Create a DPS collection with the DPS ID
+    const dpsCollectionData: Partial<DpsCollection> = {
+      memberOfApplying: dpsData.memberOfApplying,
+      branchEmail: dpsData.branchEmail,
+      companyEmail: dpsData.companyEmail,
+      dpsId: newDpsAccount._id, // Include DPS ID
+      dateOfCollection: dpsData.dpsStart,
+      dpsAcNo: dpsData.dpsAcNo,
+      dpsCollectionAmount: dpsData.startingBalance,
+      penaltyAmount: 0,
+      transactionNote: "",
+      isDeleted: false,
+    };
+
+    const [dpsCollection] = await DpsCollectionModel.create(
+      [dpsCollectionData],
+      { session }
+    );
+
+    if (!dpsCollection) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
         "Failed to create dpsCollection"
       );
-    }
-
-    // create a dpsAccount (transaction-2)
-    const newDpsAccount = await DpsModel.create([dpsData], { session });
-
-    if (!newDpsAccount.length) {
-      throw new AppError(httpStatus.BAD_REQUEST, "Failed to create DpsAccount");
     }
 
     await session.commitTransaction();
@@ -63,6 +64,7 @@ const createDpsIntoDB = async (dpsData: Dps) => {
     throw new AppError(httpStatus.BAD_REQUEST, err);
   }
 };
+
 
 const getAllDpsFromDB = async (email: string) => {
   const result = await DpsModel.find({ branchEmail: { $eq: email } }).populate(
@@ -85,20 +87,6 @@ const getSingleDpsByIdFromDB = async (id: string) => {
   }).populate("memberOfApplying");
 
   return result;
-};
-
-const getTotalDpsAmountFromDB = async (email: string) => {
-  const result = await DpsModel.aggregate([
-    { $match: { branchEmail: email } },
-    {
-      $group: {
-        _id: null,
-        totalDpsAmount: { $sum: "$startingBalance" }, // startingBalance এর যোগফল
-      },
-    },
-  ]);
-
-  return result[0]?.totalDpsAmount || 0;
 };
 
 const searchDpsAccountFromDB = async (searchQuery: any, searchEmail: any) => {
@@ -131,7 +119,6 @@ export const DpsServices = {
   createDpsIntoDB,
   getAllDpsFromDB,
   getSingleDpsFromDB,
-  getTotalDpsAmountFromDB,
   searchDpsAccountFromDB,
   getSingleDpsByIdFromDB
 };

@@ -8,12 +8,30 @@ const createLoanCollectionIntoDB = async (
   return result;
 };
 
-// const getAllLoanCollectionFromDB = async (email: string) => {
-//   const result = await LoanModel.find({
-//     branchEmail: email,
-//   }).populate("memberOfApplying");
-//   return result;
-// };
+const updateLoanCollectionIntoDB = async (
+  id: string,
+  payload: {
+    installmentAmount: number;
+    penaltyAmount: number;
+    transactionNote: string;
+  }
+) => {
+  const result = await LoanCollectionModel.findByIdAndUpdate(
+    { _id: id },
+    payload,
+    { new: true }
+  );
+  return result;
+};
+
+const deleteLoanCollectionIntoDB = async (id: string) => {
+  const result = await LoanCollectionModel.findByIdAndUpdate(
+    { _id: id },
+    { isDeleted: true },
+    { new: true }
+  );
+  return result;
+};
 
 const totalLoanCollectionFromDB = async (email: string) => {
   const documents = await LoanCollectionModel.find({ memberEmail: email });
@@ -42,6 +60,7 @@ const todayLoanCollectionFromDB = async (email: string) => {
 
   const result = await LoanCollectionModel.find({
     branchEmail: { $eq: email },
+    isDeleted: false,
     createdAt: { $gte: startOfDay, $lte: endOfDay },
   })
     .sort({ createdAt: -1 }) // Descending order
@@ -52,13 +71,13 @@ const todayLoanCollectionFromDB = async (email: string) => {
 
 const getTotalLoanCollectionAmountFromDB = async (email: string) => {
   const result = await LoanCollectionModel.aggregate([
-    { $match: { branchEmail: email } },
+    { $match: { branchEmail: email, isDeleted: false } },
     {
       $group: {
         _id: null,
         totalLoanCollectionAmount: { $sum: "$installmentAmount" }, // installmentAmount এর যোগফল
       },
-    }
+    },
   ]);
 
   return result[0]?.totalLoanCollectionAmount || 0;
@@ -69,5 +88,7 @@ export const LoanCollectionServices = {
   totalLoanCollectionFromDB,
   lastLoanCollectionFromDB,
   todayLoanCollectionFromDB,
-  getTotalLoanCollectionAmountFromDB
+  getTotalLoanCollectionAmountFromDB,
+  updateLoanCollectionIntoDB,
+  deleteLoanCollectionIntoDB,
 };

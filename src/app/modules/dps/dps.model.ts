@@ -13,7 +13,7 @@ const DpsSchema = new Schema<Dps>(
     branchEmail: { type: String, required: true },
     companyEmail: { type: String, required: true },
     dpsStart: { type: String, required: true },
-    dpsAcNo: { type: String, required: true },
+    dpsAcNo: { type: String, required: true, unique: true },
     startingBalance: { type: Number, required: true },
     durationOfYear: { type: Number, required: true },
     installmentType: { type: String, required: true },

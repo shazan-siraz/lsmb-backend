@@ -10,6 +10,11 @@ const DpsCollectionSchema = new Schema<DpsCollection>(
     },
     branchEmail: { type: String, required: true },
     companyEmail: { type: String, required: true },
+    dpsId: {
+      type: Schema.Types.ObjectId,
+      ref: "Dps",
+      required: true,
+    },
     dateOfCollection: { type: String, required: true },
     dpsAcNo: { type: String, required: true },
     dpsCollectionAmount: { type: Number, required: true },

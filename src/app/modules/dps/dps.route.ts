@@ -20,12 +20,6 @@ router.get(
 );
 
 router.get(
-  "/getTotalDpsAmount/:email",
-  // auth(USER_ROLE.manager, USER_ROLE.branch),
-  DpsControllers.getTotalDpsAmount
-);
-
-router.get(
   "/getSingleDps/:id",
   // auth(USER_ROLE.manager, USER_ROLE.branch),
   DpsControllers.getSingleDps

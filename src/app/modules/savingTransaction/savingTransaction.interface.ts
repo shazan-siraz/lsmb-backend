@@ -9,4 +9,5 @@ export type SavingTransaction = {
   savingsAmount: number;
   transactionId: string;
   transactionNote?: string;
+  isDeleted: boolean;
 };

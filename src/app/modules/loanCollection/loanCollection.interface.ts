@@ -11,4 +11,5 @@ export type LoanCollection = {
   installmentAmount: number;
   penaltyAmount?: number;
   transactionNote?: string;
+  isDeleted: boolean;
 };

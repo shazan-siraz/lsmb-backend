@@ -17,14 +17,47 @@ router.post(
 );
 
 router.get(
-  "/getAllDpsCollection",
+  "/getAllDpsCollection/:email",
   auth(
     USER_ROLE.manager,
     USER_ROLE.branch,
     USER_ROLE.accountant,
     USER_ROLE.fieldOfficer
   ),
-  DpsCollectionControllers.getAllDpsCollectionFromDB
+  DpsCollectionControllers.getAllDpsCollection
+);
+
+router.get(
+  "/todayDpsCollection/:email",
+  auth(
+    USER_ROLE.manager,
+    USER_ROLE.branch,
+    USER_ROLE.accountant,
+    USER_ROLE.fieldOfficer
+  ),
+  DpsCollectionControllers.todayDpsCollection
+);
+
+router.get(
+  "/getTotalDpsBalaceByOneDpsAc/:dpsAcNo",
+  auth(
+    USER_ROLE.manager,
+    USER_ROLE.branch,
+    USER_ROLE.accountant,
+    USER_ROLE.fieldOfficer
+  ),
+  DpsCollectionControllers.getTotalDpsBalaceByOneDpsAc
+);
+
+router.get(
+  "/getTotalDpsCollectionBalace/:email",
+  auth(
+    USER_ROLE.manager,
+    USER_ROLE.branch,
+    USER_ROLE.accountant,
+    USER_ROLE.fieldOfficer
+  ),
+  DpsCollectionControllers.getTotalDpsCollectionBalace
 );
 
 export const DpsCollectionRoutes = router;

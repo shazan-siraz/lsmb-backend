@@ -51,7 +51,6 @@ export const generateMemberId = async (email: string) => {
 
 
 
-
 const generateUniqueTxnId = () => {
   const prefix = "TXN"; // Fixed prefix
   const timestamp = Date.now().toString(36).toUpperCase(); // Base36 encoded timestamp

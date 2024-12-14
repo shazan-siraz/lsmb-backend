@@ -24,27 +24,55 @@ const createLoanCollection = async (
   }
 };
 
-// const getAllLoan = async (req: Request, res: Response) => {
-//   try {
-//     const { refreshToken } = req.cookies;
-//     const { email } = jwtDecode<JwtPayload>(refreshToken);
+const updateLoanCollection = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.body;
+  const updateLoanData = {
+    installmentAmount: req.body.installmentAmount,
+    penaltyAmount: req.body.penaltyAmount,
+    transactionNote: req.body.transactionNote,
+  };
 
-//     const result = await LoanServices.getAllLoanFromDB(email);
+  try {
+    const result = await LoanCollectionServices.updateLoanCollectionIntoDB(
+      id,
+      updateLoanData
+    );
 
-//     // send response
-//     res.status(200).json({
-//       success: true,
-//       message: "Loan is retrieve successfully",
-//       data: result,
-//     });
-//   } catch (err) {
-//     res.status(500).json({
-//       success: false,
-//       message: "Something went wrong",
-//       error: err,
-//     });
-//   }
-// };
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "update LoanCollection is successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteLoanCollection = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.body;
+
+  try {
+    const result = await LoanCollectionServices.deleteLoanCollectionIntoDB(id);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Delete LoanCollection is successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 
 const totalLoanCollection = async (
   req: Request,
@@ -139,4 +167,6 @@ export const LoanCollectionControllers = {
   lastLoanCollection,
   todayLoanCollection,
   getTotalLoanCollectionAmount,
+  updateLoanCollection,
+  deleteLoanCollection
 };

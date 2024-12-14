@@ -24,7 +24,7 @@ const createDpsCollection = async (
   }
 };
 
-const getAllDpsCollectionFromDB = async (
+const getAllDpsCollection = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -45,7 +45,75 @@ const getAllDpsCollectionFromDB = async (
   }
 };
 
+const todayDpsCollection = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result = await DpsCollectionServices.todayDpsCollectionFromDB(email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Today DpsCollection are retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getTotalDpsBalaceByOneDpsAc = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { dpsAcNo } = req.params;
+
+    const result =
+      await DpsCollectionServices.getTotalDpsBalaceByOneDpsAcFromDB(dpsAcNo);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Total Dps Balance By One Dps Account is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getTotalDpsCollectionBalace = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result =
+      await DpsCollectionServices.getTotalDpsCollectionBalaceFromDB(email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Total Dps Balance By is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const DpsCollectionControllers = {
   createDpsCollection,
-  getAllDpsCollectionFromDB,
+  getAllDpsCollection,
+  todayDpsCollection,
+  getTotalDpsBalaceByOneDpsAc,
+  getTotalDpsCollectionBalace,
 };

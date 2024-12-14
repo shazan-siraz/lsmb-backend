@@ -95,9 +95,62 @@ const todaySavingTransaction = async (
   }
 };
 
+const updateSavingTransaction = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.body;
+    const updateData = {
+      savingsAmount: req.body.amount,
+      transactionNote: req.body.transactionNote,
+    };
+
+    const result =
+      await SavingTransactionServices.updateSavingTransactionFromDB(
+        id,
+        updateData
+      );
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "updated Saving Transaction successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const deleteSavingTransaction = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.body;
+
+    const result =
+      await SavingTransactionServices.deleteSavingTransactionFromDB(id);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Delete Saving Transaction successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const SavingTransactionControllers = {
   createSavingTransaction,
   getAllSavingTransaction,
   getTotalSavingTransactionAmount,
   todaySavingTransaction,
+  updateSavingTransaction,
+  deleteSavingTransaction,
 };

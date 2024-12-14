@@ -32,12 +32,22 @@ const getTotalSavingWithdrawFromDB = async (email: string) => {
       $group: {
         _id: null,
         totalSavingWithdrawAmount: { $sum: "$withdrawAmount" },
+        totalServiceCharge: { $sum: "$serviceCharge" },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        netWithdrawAmount: {
+          $subtract: ["$totalSavingWithdrawAmount", "$totalServiceCharge"],
+        },
       },
     },
   ]);
 
-  return result.length > 0 ? result[0].totalSavingWithdrawAmount : 0;
+  return result.length > 0 ? result[0].netWithdrawAmount : 0;
 };
+
 
 export const SavingWithdrawServices = {
   createSavingWithdrawIntoDB,

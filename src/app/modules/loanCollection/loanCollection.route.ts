@@ -11,6 +11,18 @@ router.post(
   LoanCollectionControllers.createLoanCollection
 );
 
+router.post(
+  "/update-loanCollection",
+  auth(USER_ROLE.manager, USER_ROLE.branch, USER_ROLE.accountant, USER_ROLE.fieldOfficer),
+  LoanCollectionControllers.updateLoanCollection
+);
+
+router.post(
+  "/deleteLoanCollection",
+  auth(USER_ROLE.manager, USER_ROLE.branch, USER_ROLE.accountant, USER_ROLE.fieldOfficer),
+  LoanCollectionControllers.deleteLoanCollection
+);
+
 router.get(
   "/totalLoanCollection/:email",
   auth(USER_ROLE.manager, USER_ROLE.branch),

@@ -15,6 +15,7 @@ const SavingTransactionSchema = new Schema<SavingTransaction>(
     savingsAmount: { type: Number, required: true },
     transactionId: { type: String, required: true },
     transactionNote: { type: String },
+    isDeleted: { type: Boolean, default: false, required: true },
   },
   { timestamps: true }
 );

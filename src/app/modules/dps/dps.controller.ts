@@ -78,27 +78,6 @@ const getSingleDpsById = async (
   }
 };
 
-const getTotalDpsAmount = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { email } = req.params;
-
-    const result = await DpsServices.getTotalDpsAmountFromDB(email);
-
-    // send response
-    res.status(200).json({
-      success: true,
-      message: "Total Dps amount is retrieve successfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
 const searchDpsAccount = async (
   req: Request,
   res: Response,
@@ -128,7 +107,6 @@ export const DpsControllers = {
   createDps,
   getAllDps,
   getSingleDps,
-  getTotalDpsAmount,
   searchDpsAccount,
   getSingleDpsById
 };

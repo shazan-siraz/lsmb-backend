@@ -21,8 +21,12 @@ const LoanCollectionSchema = new Schema<LoanCollection>(
     installmentAmount: { type: Number, required: true },
     penaltyAmount: { type: Number },
     transactionNote: { type: String },
+    isDeleted: { type: Boolean, default: false, required: true },
   },
   { timestamps: true }
 );
 
-export const LoanCollectionModel = model("LoanCollection", LoanCollectionSchema);
+export const LoanCollectionModel = model(
+  "LoanCollection",
+  LoanCollectionSchema
+);
