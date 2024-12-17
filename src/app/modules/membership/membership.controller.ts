@@ -1,8 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { MembershipServices } from "./membership.service";
-import { JwtPayload } from "jsonwebtoken";
-import { jwtDecode } from "jwt-decode";
-import { string } from "zod";
 
 const createMembership = async (
   req: Request,
@@ -34,27 +31,6 @@ const getAllMembership = async (req: Request, res: Response) => {
     message: "Membership are retrieve successfully",
     data: result,
   });
-};
-
-const getAllSavingMembership = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { email } = req.params;
-
-    const result = await MembershipServices.getAllSavingMembershipFromDB(email);
-
-    // send response
-    res.status(200).json({
-      success: true,
-      message: "Saving Membership are retrieve successfully",
-      data: result,
-    });
-  } catch (err) {
-    next(err);
-  }
 };
 
 const getSingleMembership = async (req: Request, res: Response) => {
@@ -115,7 +91,6 @@ const searchMember = async (
 export const MembershipControllers = {
   createMembership,
   getAllMembership,
-  getAllSavingMembership,
   getSingleMembership,
   getTotalMemberAccountBalaceAndProcessFees,
   searchMember,

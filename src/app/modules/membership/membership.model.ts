@@ -3,7 +3,7 @@ import { Membership } from "./membership.interface";
 
 const MembershipSchema = new Schema<Membership>(
   {
-    memberId: { type: Number, required: true },
+    memberId: { type: String, required: true },
     branchEmail: { type: String, required: true },
     companyEmail: { type: String, required: true },
     branch: { type: Schema.Types.ObjectId, required: true, ref: "Branch" },
@@ -17,7 +17,6 @@ const MembershipSchema = new Schema<Membership>(
     phoneNo: { type: String, required: true },
     email: { type: String },
     memberNid: { type: String, required: true },
-    admissionFees: { type: Number },
     dateOfBirth: { type: String, required: true },
     age: { type: Number, required: true },
     gender: { type: String, enum: ["male", "female", "other"], required: true },
@@ -40,7 +39,6 @@ const MembershipSchema = new Schema<Membership>(
     thana: { type: String, required: true },
     presentAddress: { type: String, required: true },
     permanentAddress: { type: String },
-    accountBalance: { type: Number, required: true },
     memberPhoto: { type: String, required: true },
     signature: { type: String, required: true },
     nidFrontPart: { type: String, required: true },
@@ -48,13 +46,15 @@ const MembershipSchema = new Schema<Membership>(
     referenceEmployee: { type: Schema.Types.ObjectId, ref: "Employee" },
     referenceMember: { type: Schema.Types.ObjectId, ref: "Membership" },
     attachments: { type: [String] },
-    nominee: [{
-      nomineeName: { type: String, required: true },
-      nomineePhone: { type: Number, required: true },
-      nomineeNid: { type: Number, required: true },
-      nomineeRelation: { type: String, required: true },
-      distributation: { type: Number, required: true },
-    }],
+    nominee: [
+      {
+        nomineeName: { type: String, required: true },
+        nomineePhone: { type: Number, required: true },
+        nomineeNid: { type: Number, required: true },
+        nomineeRelation: { type: String, required: true },
+        distributation: { type: Number, required: true },
+      },
+    ],
     status: {
       type: String,
       enum: ["Enable", "Disable"],

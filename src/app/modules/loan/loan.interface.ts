@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 
 export type Loan = {
   memberOfApplying: Types.ObjectId;
+  memberId: string;
   memberName: string;
   memberPhone: string;
   branchEmail: string;
@@ -37,11 +38,14 @@ export type Loan = {
     | "Land";
   guarantorEmployee?: Types.ObjectId;
   gurantorMember?: Types.ObjectId;
-  loanGuarantor: [{
-    name: string;
-    phone: number;
-    nid: number;
-    bankAccount?: string;
-  }];
+  loanGuarantor: [
+    {
+      name: string;
+      phone: number;
+      nid: number;
+      bankAccount?: string;
+    }
+  ];
   status: "Pending" | "Active" | "OverDue" | "Completed";
+  isDeleted: boolean;
 };

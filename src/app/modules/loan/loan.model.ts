@@ -8,6 +8,7 @@ const LoanSchema = new Schema<Loan>(
       ref: "Membership",
       required: true,
     },
+    memberId: { type: String, required: true },
     memberName: { type: String, required: true },
     memberPhone: { type: String, required: true },
     branchEmail: { type: String, required: true },
@@ -58,18 +59,21 @@ const LoanSchema = new Schema<Loan>(
       type: Schema.Types.ObjectId,
       ref: "Membership",
     },
-    loanGuarantor: [{
-      name: { type: String, required: true },
-      phone: { type: Number, required: true },
-      nid: { type: Number, required: true },
-      bankAccount: { type: String },
-    }],
+    loanGuarantor: [
+      {
+        name: { type: String, required: true },
+        phone: { type: Number, required: true },
+        nid: { type: Number, required: true },
+        bankAccount: { type: String },
+      },
+    ],
     status: {
       type: String,
       enum: ["Pending", "Active", "OverDue", "Completed"],
       required: true,
       default: "Pending",
     },
+    isDeleted: { type: Boolean, default: false, required: true },
   },
   { timestamps: true }
 );

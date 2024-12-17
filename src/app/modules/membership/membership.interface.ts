@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 export type Membership = {
-  memberId: number;
+  memberId: string;
   branchEmail: string;
   companyEmail: string;
   branch: Types.ObjectId;
@@ -11,7 +11,6 @@ export type Membership = {
   phoneNo: string;
   email?: string;
   memberNid: string;
-  admissionFees?: number;
   dateOfBirth: string;
   age: number;
   gender: "male" | "female" | "other";
@@ -29,7 +28,6 @@ export type Membership = {
   thana: string;
   presentAddress: string;
   permanentAddress?: string;
-  accountBalance: number;
   memberPhoto: string;
   signature: string;
   nidFrontPart: string;

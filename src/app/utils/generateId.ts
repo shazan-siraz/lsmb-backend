@@ -1,4 +1,5 @@
 import { EmployeeModel } from "../modules/employee/employee.model";
+import { LoanModel } from "../modules/loan/loan.model";
 import MembershipModel from "../modules/membership/membership.model";
 
 const findLastEmployeeId = async (branchEmail: string) => {
@@ -37,19 +38,17 @@ const findLastMemberId = async (branchEmail: string) => {
 };
 
 export const generateMemberId = async (email: string) => {
-  let currentId = 0;
+  let currentId = 1000;
   const lastMemberId = await findLastMemberId(email);
 
   if (lastMemberId) {
-    currentId = lastMemberId;
+    currentId = Number(lastMemberId);
   }
 
   const incrementId = currentId + 1;
 
-  return incrementId;
+  return incrementId.toString();
 };
-
-
 
 const generateUniqueTxnId = () => {
   const prefix = "TXN"; // Fixed prefix
@@ -61,5 +60,36 @@ const generateUniqueTxnId = () => {
 
 const generateRandomString = (length: any) => {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  return Array.from(
+    { length },
+    () => chars[Math.floor(Math.random() * chars.length)]
+  ).join("");
 };
+
+const findLastLoanNo = async (branchEmail: string) => {
+  const lastLoanNo = await LoanModel.findOne({
+    branchEmail: branchEmail,
+  }).sort({ createdAt: -1 });
+
+  return lastLoanNo?.loanNo ? lastLoanNo?.loanNo : "LOAN-1000";
+};
+
+export const generateNewLoanNo = async (email: string) => {
+  const lastLoanNo = await findLastLoanNo(email);
+
+  // স্ট্রিং-এর সংখ্যা অংশ আলাদা করা
+  const parts = lastLoanNo.split("-");
+  const prefix = parts[0]; // "LOAN"
+  const number = parseInt(parts[1], 10); // "1002" -> 1002
+
+  // সংখ্যা অংশ ইনক্রিমেন্ট করা
+  const incrementedNumber = number + 1;
+
+  // নতুন স্ট্রিং তৈরি করা
+  const newLoanId = `${prefix}-${incrementedNumber
+    .toString()
+    .padStart(4, "0")}`;
+
+  return newLoanId;
+};
+

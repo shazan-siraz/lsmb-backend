@@ -56,6 +56,17 @@ router.get(
 );
 
 router.get(
+  "/getLastLoanDocument/:email",
+  auth(
+    USER_ROLE.manager,
+    USER_ROLE.branch,
+    USER_ROLE.accountant,
+    USER_ROLE.fieldOfficer
+  ),
+  LoanControllers.getLastLoanDocument
+);
+
+router.get(
   "/:id",
   // auth(USER_ROLE.manager, USER_ROLE.branch),
   LoanControllers.getSingleLoan

@@ -14,8 +14,7 @@ const createMembershipIntoDB = async (memberData: Membership) => {
     .select("registeredPackage")
     .populate("registeredPackage", "memberLimit");
 
-  const memberLimit = (company?.registeredPackage as Package)
-    ?.memberLimit;
+  const memberLimit = (company?.registeredPackage as Package)?.memberLimit;
 
   // BranchModel থেকে branchEmail গুলো বের করে আনা
   const branches = await BranchModel.find({
@@ -50,20 +49,14 @@ const getAllMembershipFromDB = async (email: string) => {
   return result;
 };
 
-const getAllSavingMembershipFromDB = async (email: string) => {
-  const result = await MembershipModel.aggregate([
-    { $match: { branchEmail: email, accountBalance: { $gt: 0 } } },
-  ]);
-
-  return result;
-};
-
 const getSingleMembershipFromDB = async (id: string) => {
   const result = await MembershipModel.findById({ _id: id });
   return result;
 };
 
-const getTotalMemberAccountBalaceAndProcessFeesFromDB = async (email: string) => {
+const getTotalMemberAccountBalaceAndProcessFeesFromDB = async (
+  email: string
+) => {
   const result = await MembershipModel.aggregate([
     { $match: { branchEmail: email } }, // Branch match
     {
@@ -86,16 +79,13 @@ const getTotalMemberAccountBalaceAndProcessFeesFromDB = async (email: string) =>
 
 const searchMemberFromDB = async (searchQuery: any, searchEmail: any) => {
   try {
-    // Check if searchQuery is a number
-    const isNumber = !isNaN(Number(searchQuery));
-
     // Build query dynamically
     const query = {
       branchEmail: searchEmail, // Branch-specific filtering
       $or: [
+        { memberId: { $regex: searchQuery, $options: "i" } },
         { memberName: { $regex: searchQuery, $options: "i" } },
         { phoneNo: { $regex: searchQuery, $options: "i" } },
-        ...(isNumber ? [{ memberId: searchQuery }] : []),
       ],
     };
 
@@ -116,7 +106,6 @@ const searchMemberFromDB = async (searchQuery: any, searchEmail: any) => {
 export const MembershipServices = {
   createMembershipIntoDB,
   getAllMembershipFromDB,
-  getAllSavingMembershipFromDB,
   getSingleMembershipFromDB,
   getTotalMemberAccountBalaceAndProcessFeesFromDB,
   searchMemberFromDB,

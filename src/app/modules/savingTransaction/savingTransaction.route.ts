@@ -29,5 +29,14 @@ router.post(
   SavingTransactionControllers.deleteSavingTransaction
 );
 
+router.get(
+  "/getTotalSavingAmountByOneMember/:id",
+  SavingTransactionControllers.getTotalSavingAmountByOneMember
+);
+
+router.get(
+  "/getUniqueMemberSavings/:email",
+  SavingTransactionControllers.getUniqueMemberSavings
+);
 
 export const SavingTransactionRoutes = router;

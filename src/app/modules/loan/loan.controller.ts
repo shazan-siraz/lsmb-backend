@@ -170,6 +170,27 @@ const getTotalLoanAmountWithoutPorcessFees = async (
   }
 };
 
+const getLastLoanDocument = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    const result = await LoanServices.getLastLoanDocumentFromDB(email);
+
+    // send response
+    res.status(200).json({
+      success: true,
+      message: "Last Loan Document is retrieve successfully",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const searchLoan = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const query = req.query.query;
@@ -197,5 +218,6 @@ export const LoanControllers = {
   updateLoan,
   getOverdueLoan,
   getTotalLoanAmountWithoutPorcessFees,
+  getLastLoanDocument,
   searchLoan,
 };

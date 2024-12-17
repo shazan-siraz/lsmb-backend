@@ -1,7 +1,12 @@
+import { generateNewLoanNo } from "../../utils/generateId";
 import { Loan } from "./loan.interface";
 import { LoanModel } from "./loan.model";
 
 const createLoanIntoDB = async (loanData: Loan) => {
+  const loanNo = await generateNewLoanNo(loanData?.branchEmail);
+
+  loanData.loanNo = loanNo;
+
   const result = await LoanModel.create(loanData);
   return result;
 };
@@ -91,6 +96,14 @@ const getTotalLoanAmountWithoutPorcessFeesFromDB = async (email: string) => {
   return result[0]?.netAmount || 0;
 };
 
+const getLastLoanDocumentFromDB = async (email: string) => {
+  const result = await LoanModel.findOne({ branchEmail: email }).sort({
+    createdAt: -1,
+  });
+
+  return result;
+};
+
 const searchLoanFromDB = async (searchQuery: any, searchEmail: any) => {
   try {
     // Check if searchQuery is a number
@@ -131,5 +144,6 @@ export const LoanServices = {
   updateLoanFromDB,
   getOverdueLoanFromDB,
   getTotalLoanAmountWithoutPorcessFeesFromDB,
+  getLastLoanDocumentFromDB,
   searchLoanFromDB,
 };
