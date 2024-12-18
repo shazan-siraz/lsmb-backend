@@ -2,9 +2,9 @@ import { Types } from "mongoose";
 
 export type LoanCollection = {
   loanId: Types.ObjectId;
+  loanNo: string;
   memberId: Types.ObjectId;
   transactionId: string;
-  memberEmail: string;
   branchEmail: string;
   companyEmail: string;
   date: string;

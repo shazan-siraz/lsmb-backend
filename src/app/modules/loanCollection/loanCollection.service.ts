@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { LoanCollection } from "./loanCollection.interface";
 import { LoanCollectionModel } from "./loanCollection.model";
 
@@ -45,8 +46,8 @@ const totalLoanCollectionFromDB = async (email: string) => {
   return totalAmount;
 };
 
-const lastLoanCollectionFromDB = async (email: string) => {
-  const lastDocument = await LoanCollectionModel.find({ memberEmail: email }) // Filter by email
+const lastLoanCollectionFromDB = async (loanNo: string) => {
+  const lastDocument = await LoanCollectionModel.find({ loanNo: loanNo })
     .sort({ _id: -1 }) // Sort by _id in descending order
     .limit(1); // Get only the last document
 
@@ -80,6 +81,22 @@ const getTotalLoanCollectionAmountFromDB = async (email: string) => {
     },
   ]);
 
+  console.log("result", result[0]?.totalLoanCollectionAmount || 0);
+
+  return result[0]?.totalLoanCollectionAmount || 0;
+};
+
+const getOneAccountTotalLoanCollectionAmountFromDB = async (id: string) => {
+  const result = await LoanCollectionModel.aggregate([
+    { $match: { loanId: new mongoose.Types.ObjectId(id), isDeleted: false } },
+    {
+      $group: {
+        _id: null,
+        totalLoanCollectionAmount: { $sum: "$installmentAmount" }, // installmentAmount এর যোগফল
+      },
+    },
+  ]);
+
   return result[0]?.totalLoanCollectionAmount || 0;
 };
 
@@ -91,4 +108,5 @@ export const LoanCollectionServices = {
   getTotalLoanCollectionAmountFromDB,
   updateLoanCollectionIntoDB,
   deleteLoanCollectionIntoDB,
+  getOneAccountTotalLoanCollectionAmountFromDB
 };

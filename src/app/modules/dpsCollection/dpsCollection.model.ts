@@ -15,6 +15,7 @@ const DpsCollectionSchema = new Schema<DpsCollection>(
       ref: "Dps",
       required: true,
     },
+    transactionId: { type: String, required: true },
     dateOfCollection: { type: String, required: true },
     dpsAcNo: { type: String, required: true },
     dpsCollectionAmount: { type: Number, required: true },

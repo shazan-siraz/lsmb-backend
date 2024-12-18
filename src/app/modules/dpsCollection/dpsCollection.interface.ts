@@ -9,6 +9,7 @@ export type DpsCollection = {
   dpsId: Types.ObjectId;
   dateOfCollection: string;
   dpsAcNo: string;
+  transactionId: string;
   dpsCollectionAmount: number;
   penaltyAmount?: number;
   transactionNote?: string;

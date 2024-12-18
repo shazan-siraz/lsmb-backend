@@ -13,13 +13,23 @@ router.post(
 
 router.post(
   "/update-loanCollection",
-  auth(USER_ROLE.manager, USER_ROLE.branch, USER_ROLE.accountant, USER_ROLE.fieldOfficer),
+  auth(
+    USER_ROLE.manager,
+    USER_ROLE.branch,
+    USER_ROLE.accountant,
+    USER_ROLE.fieldOfficer
+  ),
   LoanCollectionControllers.updateLoanCollection
 );
 
 router.post(
   "/deleteLoanCollection",
-  auth(USER_ROLE.manager, USER_ROLE.branch, USER_ROLE.accountant, USER_ROLE.fieldOfficer),
+  auth(
+    USER_ROLE.manager,
+    USER_ROLE.branch,
+    USER_ROLE.accountant,
+    USER_ROLE.fieldOfficer
+  ),
   LoanCollectionControllers.deleteLoanCollection
 );
 
@@ -30,14 +40,19 @@ router.get(
 );
 
 router.get(
-  "/lastLoanCollection/:email",
+  "/lastLoanCollection/:loanNo",
   auth(USER_ROLE.manager, USER_ROLE.branch),
   LoanCollectionControllers.lastLoanCollection
 );
 
 router.get(
   "/todayLoanCollection/:email",
-  auth(USER_ROLE.manager, USER_ROLE.branch, USER_ROLE.accountant, USER_ROLE.fieldOfficer),
+  auth(
+    USER_ROLE.manager,
+    USER_ROLE.branch,
+    USER_ROLE.accountant,
+    USER_ROLE.fieldOfficer
+  ),
   LoanCollectionControllers.todayLoanCollection
 );
 
@@ -47,6 +62,10 @@ router.get(
   LoanCollectionControllers.getTotalLoanCollectionAmount
 );
 
-
+router.get(
+  "/getOneAccountTotalLoanCollectionAmount/:id",
+  // auth(USER_ROLE.manager, USER_ROLE.branch, USER_ROLE.accountant, USER_ROLE.fieldOfficer),
+  LoanCollectionControllers.getOneAccountTotalLoanCollectionAmount
+);
 
 export const LoanCollectionRoutes = router;
