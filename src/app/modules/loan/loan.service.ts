@@ -106,17 +106,14 @@ const getLastLoanDocumentFromDB = async (email: string) => {
 
 const searchLoanFromDB = async (searchQuery: any, searchEmail: any) => {
   try {
-    // Check if searchQuery is a number
-    const isNumber = !isNaN(Number(searchQuery));
-
-    // Build query dynamically
     const query = {
       branchEmail: searchEmail, // Branch-specific filtering
-      status: "Active", // Branch-specific filtering
+      status: "Active",
       $or: [
-        { memberName: { $regex: searchQuery, $options: "i" } }, // Case-insensitive search for name
-        { memberPhone: { $regex: searchQuery, $options: "i" } }, // Case-insensitive search for phone
-        ...(isNumber ? [{ loanAmount: searchQuery }] : []), // Search for exact memberId if it's a number
+        { memberId: { $regex: searchQuery, $options: "i" } },
+        { loanNo: { $regex: searchQuery, $options: "i" } },
+        { memberName: { $regex: searchQuery, $options: "i" } },
+        { memberPhone: { $regex: searchQuery, $options: "i" } },
       ],
     };
 
@@ -124,7 +121,6 @@ const searchLoanFromDB = async (searchQuery: any, searchEmail: any) => {
 
     // Log results if needed
     if (!results.length) {
-      console.log("No members found.");
       return [];
     }
 
